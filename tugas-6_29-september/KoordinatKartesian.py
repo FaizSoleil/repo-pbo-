@@ -1,4 +1,12 @@
-
+"""
+Nama file : KoordinatKartesian.py
+Nama Kelompok:
+- Muhammad Athar Alfarisi (140810250005)
+- Muhammad Faiz Hariy (140810250029)
+- Gibraldi Zilal Fachry (140810250038)
+Tanggal buat : 28 September 2026
+Deskripsi : Implementasi komunikasi antar objek kasus Koordinat Kartesian.
+"""
 
 class Koordinat :
     def __init__(self, absis=0, ordinat=0):
