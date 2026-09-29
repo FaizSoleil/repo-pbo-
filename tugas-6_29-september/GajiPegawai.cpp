@@ -1,11 +1,12 @@
-/*
-Nama File: GajiPegawai_005_029_038.cpp
-Nama Anggota: - Muhammad Athar Alfarisi (250005)
-              - Muhammad Faiz Hariy Nugroho (250029)
-              - Gibraldi Zilal Fachry (250038)
-Tanggal buat: 29 September 2026
-Deskripsi: Implementasi komunikasi antar class menggunakan masalah gaji pegawai
-*/
+/***********************************************************
+ *    Nama File    : GajiPegawai.cpp
+ *    Nama Kelompok:
+ *      - Muhammad Athar Alfarisi (140810250005)
+ *      - Muhammad Faiz Hariy Nugroho (140810250029)
+ *      - Gibraldi Zilal Fachry (140810250038)
+ *    Tanggal Buat : 29 September 2026
+ *    Deskripsi    : Implementasi komunikasi antar class menggunakan masalah gaji pegawai
+ ***********************************************************/
 
 #include <iostream>
 #include <string>
