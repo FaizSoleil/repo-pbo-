@@ -1,4 +1,13 @@
 
+/***********************************************************
+ *    Nama File    : SelisihWaktu.java
+ *    Nama Kelompok:
+ *      - Muhammad Athar Alfarisi (140810250005)
+ *      - Muhammad Faiz Hariy Nugroho (140810250029)
+ *      - Gibraldi Zilal Fachry (140810250038)
+ *    Tanggal Buat : 28 September 2026
+ *    Deskripsi    : Program kalkulasi selisih waktu
+ ***********************************************************/
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
