@@ -16,7 +16,7 @@ public class KoordinatKartesian
 {
     public static void main(String args[])
     {
-        
+        KoordinatKartesian.menu();
     }
 
     public static void menu()
@@ -26,7 +26,7 @@ public class KoordinatKartesian
         while (jalan)
         {
             printMenu();
-            int pilihan = Helper.validInputInt("Pilih menu (1-5): ", 0, 4);
+            int pilihan = Helper.validInputInt("Pilih menu (1-5): ", 0, 5);
 
             switch (pilihan)
             {
