@@ -144,8 +144,8 @@ public:
     Koordinat cerminSumbuYReturn() {
         Koordinat hasil;
         
-        hasil.absis = -(this->ordinat);
-        hasil.ordinat = this->absis;
+        hasil.absis = -(this->absis);
+        hasil.ordinat = this->ordinat;
         return hasil;
     }
 
