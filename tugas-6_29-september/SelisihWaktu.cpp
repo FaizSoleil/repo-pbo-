@@ -142,7 +142,7 @@ public:
 
     static void menu(int pilihan){
         switch(pilihan) {
-            case 1:
+            case 1: {
                 printf("\n--- 1. Constructor Konstanta ---\n");
                 Waktu wA(8, 30, 0);
                 Waktu wB(10, 45, 15);
@@ -159,8 +159,8 @@ public:
                 printf("Selisih (Void)  : ");
                 selisihVoid.printWaktu('S');
                 break;
-            
-            case 2:
+            }
+            case 2:{
                 printf("\n--- 2. Setter Konstanta ---\n");
                 Waktu wA;
                 Waktu wB;
@@ -180,8 +180,8 @@ public:
                 printf("Selisih (Void)  : ");
                 selisihVoid.printWaktu('S');
                 break;
-            
-            case 3:
+            }
+            case 3:{
                 printf("\n--- 3. Setter Input Luar ---\n");
                 Waktu wA;
                 Waktu wB;
@@ -209,8 +209,8 @@ public:
                 printf("Selisih (Void)  : ");
                 selisihVoid.printWaktu('S');
                 break;
-            
-            case 4:
+            }
+            case 4:{
                 printf("\n--- 4. Input Dalam ---\n");
                 Waktu wA;
                 Waktu wB;
@@ -234,7 +234,7 @@ public:
                 printf("Selisih (Void)  : ");
                 selisihVoid.printWaktu('S');
                 break;
-            
+            }
             case 0:
                 printf("Terima kasih...\n\n\n");
                 break;
@@ -249,7 +249,7 @@ public:
         int pilih = -1;
         do {
             displayMenu();
-            pilih = Helper::validInputInt(": ", 0, 4);
+            pilih = Helper::validInputInt("Menu : ", 0, 4);
             menu(pilih);
         } while (pilih != 0);
     }
