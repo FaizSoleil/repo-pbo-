@@ -286,23 +286,6 @@ class Pegawai {
             return "ok";
         }
     }
-}
-
-public class GajiPegawai {
-    public static void main(String[] args) {
-        GajiPegawai app = new GajiPegawai();
-        app.menu();
-    }
-
-    public void displayMenu(){
-        System.out.println("\n============= MENU ===============");
-        System.out.println("1. CONTRUCTOR KONSTANTA");
-        System.out.println("2. SETTER KONSTANTA");
-        System.out.println("3. SETTER INPUT LUAR");
-        System.out.println("4. INPUT DALAM");
-        System.out.println("0. KELUAR");
-        System.out.println("==================================");
-    }
 
     public void cetakTabel(Pegawai p) {
         System.out.println("\n\t\t\t\tDaftar Gaji Harian PT Informatika\n");
@@ -363,8 +346,22 @@ public class GajiPegawai {
             "------------------------------------------------------------------------------------------------------------------------------------"
         );
     }
+}
 
-    public void menu(){
+class Menu {
+    public static void displayMenu(){
+        System.out.println("\n============= MENU ===============");
+        System.out.println("1. CONTRUCTOR KONSTANTA");
+        System.out.println("2. SETTER KONSTANTA");
+        System.out.println("3. SETTER INPUT LUAR");
+        System.out.println("4. INPUT DALAM");
+        System.out.println("0. KELUAR");
+        System.out.println("==================================");
+    }
+
+    
+
+    public static void menu(){
         int pilih = 0;
         do {
             displayMenu();
@@ -373,7 +370,7 @@ public class GajiPegawai {
             switch(pilih){
                 case 1: {
                     Pegawai p = new Pegawai("001", "Ali", 3, new Waktu(8, 0, 0), new Waktu(17, 15, 10));
-                    cetakTabel(p);
+                    p.cetakTabel(p);
                     break;
                 }
                 case 2:{
@@ -384,7 +381,7 @@ public class GajiPegawai {
                     p.setDatang(new Waktu(8, 0, 0));
                     p.setPulang(new Waktu(17, 15, 10));
 
-                    cetakTabel(p);
+                    p.cetakTabel(p);
                     break;
                 }
                 case 3:{
@@ -413,13 +410,13 @@ public class GajiPegawai {
                     pl.inputWaktu();
                     p.setPulang(pl);
 
-                    cetakTabel(p);
+                    p.cetakTabel(p);
                     break;
                 }
                 case 4:{
                     Pegawai p = new Pegawai();
                     p.inputPegawai();
-                    cetakTabel(p);
+                    p.cetakTabel(p);
                     break;
                 }
                 case 0:{
@@ -428,5 +425,11 @@ public class GajiPegawai {
                 }
             }
         } while(pilih != 0);
+    }
+}
+
+public class GajiPegawai {
+    public static void main(String[] args) {
+        Menu.menu();
     }
 }
