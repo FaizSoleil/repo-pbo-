@@ -246,7 +246,7 @@ public:
         int pilih = -1;
         do {
             displayMenu();
-            pilih = Helper::validInputInt(": ", 0, 4);
+            pilih = Helper::validInputInt("Menu : ", 0, 4);
             menu(pilih);
         } while (pilih != 0);
     }
