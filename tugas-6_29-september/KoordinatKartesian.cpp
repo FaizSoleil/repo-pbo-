@@ -162,7 +162,12 @@ public:
         return jarak;
     }
 
-    void displayMenu() {
+    
+};
+
+class Menu {
+    public:
+    static void displayMenu() {
         InputHelper::print("\n==================================================");
         InputHelper::print("   PENGOLAHAN KOORDINAT KARTESIUS (VOID & RETURN)   ");
         InputHelper::print("==================================================");
@@ -174,7 +179,7 @@ public:
         InputHelper::print("==================================================");
     }
 
-    void menu() {
+    static void menu() {
         int pilihan = -1;
         while (pilihan != 5)
         {
@@ -285,6 +290,5 @@ public:
 };
 
 int main() {
-    Koordinat koordinat;
-    koordinat.menu();
+    Menu::menu();
 }
