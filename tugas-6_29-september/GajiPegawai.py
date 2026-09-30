@@ -5,7 +5,7 @@ Nama Kelompok:
 - Muhammad Faiz Hariy (140810250029)
 - Gibraldi Zilal Fachry (140810250038)
 Tanggal buat : 28 September 2026
-Deskripsi : Implementasi komunikasi antar objek kasus Koordinat Kartesian.
+Deskripsi : Implementasi komunikasi antar objek kasus perhitungan gaji pegawai.
 """
 
 class Helper:
@@ -178,9 +178,10 @@ class Pegawai:
         return "ok"
 
 
-class GajiPegawai:
+class Menu:
     GARIS = "-" * 132
 
+    @staticmethod
     def display_menu(self):
         print("\n============= MENU ===============")
         print("1. CONSTRUCTOR KONSTANTA")
@@ -190,6 +191,7 @@ class GajiPegawai:
         print("0. KELUAR")
         print("==================================")
 
+    @staticmethod
     def cetak_tabel(self, p):
         print("\n\t\t\t\tDaftar Gaji Harian PT Informatika\n")
         print(self.GARIS)
@@ -215,6 +217,7 @@ class GajiPegawai:
               f"{p.get_status():<10}")
         print(self.GARIS)
 
+    @staticmethod
     def menu(self):
         pilih = -1
         while pilih != 0:
@@ -264,7 +267,8 @@ class GajiPegawai:
             elif pilih == 0:
                 print("Terima kasih...")
 
+            else:
+                pass
 
 if __name__ == "__main__":
-    app = GajiPegawai()
-    app.menu()
+    Menu.menu()
