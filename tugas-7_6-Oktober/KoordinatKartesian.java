@@ -16,9 +16,12 @@ public class KoordinatKartesian
 {
     public static void main(String args[])
     {
-        KoordinatKartesian.menu();
+        Menu.menu();
     }
+}
 
+class Menu
+{
     public static void menu()
     {
         boolean jalan = true;
