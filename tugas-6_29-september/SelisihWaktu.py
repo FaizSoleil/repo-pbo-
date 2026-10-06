@@ -182,6 +182,14 @@ class Menu:
         else:
             print("Pilihan tidak valid, silakan coba lagi.")
 
+    def runMenu():
+        pilih = -1
+
+        while pilih != 0:
+            Menu.displayMenu()
+            pilih = Helper.getValidInteger("Menu (pilih 0-4): ", 0, 4)
+            Menu.menu(pilih)
+
 class Helper:
     @staticmethod
     def getValidInteger(prompt, minValue=None, maxValue=None):
@@ -202,12 +210,7 @@ class Helper:
                 print("Invalid input: please enter a valid number")
 
 def main():
-    pilih = -1
-
-    while pilih != 0:
-        Menu.displayMenu()
-        pilih = Helper.getValidInteger("Menu (pilih 0-4): ", 0, 4)
-        Menu.menu(pilih)
+    Menu.runMenu()
 
 
 

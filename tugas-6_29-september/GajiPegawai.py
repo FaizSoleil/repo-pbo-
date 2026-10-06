@@ -270,5 +270,8 @@ class Menu:
             else:
                 pass
 
-if __name__ == "__main__":
+def main():
     Menu.menu()
+
+if __name__ == "__main__":
+    main()

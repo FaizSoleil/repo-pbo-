@@ -98,15 +98,8 @@ class Waktu{
 }
 
 public class SelisihWaktu{
-
     public static void main(String[] args){
-        int pilih = 0;
-
-        do{
-            Menu.displayMenu();
-            pilih = Helper.validInputInt("Menu: ", 0, 4);
-            Menu.menu(pilih);
-        } while (pilih != 0);
+        Menu.runMenu();
     }
 }
 
@@ -221,6 +214,16 @@ class Menu{
                 break;
             }
         }
+    }
+
+    public static void runMenu(){
+        int pilih = 0;
+
+        do{
+            Menu.displayMenu();
+            pilih = Helper.validInputInt("Menu: ", 0, 4);
+            Menu.menu(pilih);
+        } while (pilih != 0);
     }
 }
 

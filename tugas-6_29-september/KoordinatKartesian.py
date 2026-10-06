@@ -184,6 +184,8 @@ class Menu:
             else:
                 print("Pilihan tidak valid, silakan coba lagi.")
 
+def main():
+    Menu.menu()
 
 if __name__ == "__main__":
-    Menu.menu()
+    main()
