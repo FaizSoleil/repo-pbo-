@@ -17,7 +17,7 @@ class Helper:
                 if minimum <= angka <= maksimum:
                     return angka
             except ValueError:
-                pass # py require something, doesn't accept empty code line
+                pass
             print(f"Input harus angka {minimum} - {maksimum}!!")
 
     @staticmethod

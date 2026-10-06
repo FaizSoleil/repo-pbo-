@@ -33,7 +33,6 @@ class Menu
 
             switch (pilihan)
             {
-                // cases encased in {} so p1, p2, ... will live only inside that scope
                 case 1:
                 {
                     Koordinat p1 = new Koordinat(5, 3);
