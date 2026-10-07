@@ -1,4 +1,4 @@
-# Nama file : GajiPegawai.py
+# Nama file : gaji_pegawai.py
 # Nama Kelompok:
 # - Muhammad Athar Alfarisi (140810250005)
 # - Muhammad Faiz Hariy (140810250029)
