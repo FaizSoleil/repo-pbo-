@@ -31,3 +31,13 @@ class Matriks:
 
     def get_matriks(self):
         return self.matriks
+
+
+class Menu:
+    @staticmethod
+    def run_menu():
+        return "var"
+
+
+if __name__=="__main__":
+    Main.run_menu()
