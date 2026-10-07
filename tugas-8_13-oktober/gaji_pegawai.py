@@ -3,7 +3,7 @@
 # - Muhammad Athar Alfarisi (140810250005)
 # - Muhammad Faiz Hariy (140810250029)
 # - Gibraldi Zilal Fachry (140810250038)
-# Tanggal buat : 28 September 2026
+# Tanggal buat : 07 Oktobere 2026
 # Deskripsi : Implementasi komunikasi antar objek kasus perhitungan gaji pegawai dengan Array of Object.
 
 class Helper:
