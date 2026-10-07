@@ -6,7 +6,6 @@
 #    Tanggal Buat : 07 Oktober 2026
 #    Deskripsi    : Program kalkulasi selisih waktu
 
-
 class Matriks:
     def __init__(self, baris, kolom):
         self.baris = baris
