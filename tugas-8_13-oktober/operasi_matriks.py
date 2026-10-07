@@ -8,13 +8,15 @@ class Matriks:
     def __init__(self, baris, kolom):
         self.baris = baris
         self.kolom = kolom
-        self.matriks[baris][kolom] = [[0.0 for _ in range[kolom]]]
+        self.matriks[baris][kolom] = [[0.0 for _ in range[kolom]] for _ in range[baris]]
 
     def set_baris(self, baris):
         self.baris = baris
+        self.matriks[baris][self.kolom] = [[0.0 for _ in range[self.kolom]] for _ in range[baris]]
 
     def set_kolom(self, kolom):
         self.kolom = kolom
+        self.matriks[self.baris][kolom] = [[0.0 for _ in range[kolom]] for _ in range[self.baris]]
 
     def get_baris(self):
         return self.baris
