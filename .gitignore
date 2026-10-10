@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c++,java,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,java,python
 
+# pdf
+*.pdf
+
 ### C++ ###
 # Prerequisites
 *.d
