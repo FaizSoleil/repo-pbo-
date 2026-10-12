@@ -8,7 +8,7 @@ from helpers import Inputs
 def main():
     Menu.runMenu()
 
-class OneDimensionInteger:
+class ArrayInteger1D:
     def __init__(self, data = 0, kapasitas=100):
         self.__data = []
         self.__kapasitas = kapasitas
@@ -122,7 +122,7 @@ class Menu:
             match pilihan:
                 case 1:
                     n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
-                    array_integer1 = OneDimensionInteger()
+                    array_integer1 = ArrayInteger1D()
 
                     for i in range(n):
                         array_integer1.tambah_integer(i)
@@ -131,13 +131,13 @@ class Menu:
 
                 case 2:
                     n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
-                    array_integer2 = OneDimensionInteger(n)
+                    array_integer2 = ArrayInteger1D(n)
 
                     Menu.print_test(2, array_integer2)
 
                 case 3:
                     n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
-                    array_integer3 = OneDimensionInteger()
+                    array_integer3 = ArrayInteger1D()
 
                     for i in range(n):
                         print(f"\n --- Data Integer ke-{i+1} ---")
@@ -148,7 +148,7 @@ class Menu:
 
                 case 4:
                     n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
-                    array_integer4 = OneDimensionInteger()
+                    array_integer4 = ArrayInteger1D()
                     array_integer4.input_data(n)
 
                     Menu.print_test(4, array_integer4)
