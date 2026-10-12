@@ -6,6 +6,10 @@
 # Tanggal buat : 07 Oktobere 2026
 # Deskripsi : Implementasi komunikasi antar objek kasus perhitungan gaji pegawai dengan Array of Object.
 
+def main():
+    m = Menu()
+    m.menu()
+
 class Helper:
     @staticmethod
     def valid_input_int(pesan, minimum, maksimum):
@@ -271,7 +275,7 @@ class Menu:
     def input(self):
         return Helper.valid_input_int("Menu: ", 0, 4)
 
-    def proses(self, pilih):
+    def proses(self):
         pass
 
     def output(self):
@@ -345,5 +349,4 @@ class Menu:
 
 
 if __name__ == "__main__":
-    m = Menu()
-    m.menu()
+    main()
