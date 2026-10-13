@@ -6,10 +6,6 @@
 # Tanggal buat : 07 Oktobere 2026
 # Deskripsi : Implementasi komunikasi antar objek kasus perhitungan gaji pegawai dengan Array of Object.
 
-def main():
-    m = Menu()
-    m.menu()
-
 class Helper:
     @staticmethod
     def valid_input_int(pesan, minimum, maksimum):
@@ -96,16 +92,6 @@ class Waktu:
             self.__menit = 0
             self.__detik = 0
 
-    def input(self):
-        self.input_waktu()
-
-    def proses(self, pulang):
-        return self.jarak_waktu(pulang)
-
-    def output(self, end=""):
-        self.print_waktu(end=end)
-
-
 class Pegawai:
     GAJI_HARIAN = {1: 150000, 2: 200000, 3: 400000, 4: 500000}
     BIAYA_LEMBUR = {1: 50000, 2: 75000, 3: 150000, 4: 200000}
@@ -188,20 +174,7 @@ class Pegawai:
             return "peringatan"
         return "ok"
 
-    def input(self):
-        self.input_pegawai()
-
-    def proses(self):
-        return {
-            "lama_kerja": self.get_lama_kerja(),
-            "waktu_lembur": self.get_waktu_lembur(),
-            "gaji_harian": self.get_gaji_harian(),
-            "uang_lembur": self.get_uang_lembur_total(),
-            "total_gaji": self.get_total_gaji(),
-            "status": self.get_status()
-        }
-
-    def output(self, no=1):
+    def print_pegawai(self, no=1):
         print(f"{f'{no}.':<4}{self.get_nip():<6}{self.get_nama():<16}{self.get_gol():<8}", end="")
 
         self.get_datang().print_waktu()
@@ -233,21 +206,15 @@ class ArrayPegawai:
     def get_data(self):
         return self.__data
 
-    def input(self, n=1):
+    def input_data(self, n=1):
         self.__data = []
         for i in range(n):
             print(f"\n--- Data Pegawai ke-{i+1} ---")
             p = Pegawai()
-            p.input()
+            p.input_pegawai()
             self.tambah_pegawai(p)
 
-    def proses(self):
-        hasil = []
-        for i in range(len(self.__data)):
-            hasil.append(self.__data[i].proses())
-        return hasil
-
-    def output(self):
+    def print_all_pegawai(self):
         print("\n\t\t\t\tDaftar Gaji Harian PT Informatika\n")
         print(self.GARIS)
         print(f"{'No':<4}{'NIP':<6}{'Nama':<16}{'Gol':<8}{'Datang':<11}{'Pulang':<11}"
@@ -256,7 +223,7 @@ class ArrayPegawai:
         print(self.GARIS)
 
         for i in range(len(self.__data)):
-            self.__data[i].output(i + 1)
+            self.__data[i].print_pegawai(i + 1)
 
         print(self.GARIS)
 
@@ -275,12 +242,6 @@ class Menu:
     def input(self):
         return Helper.valid_input_int("Menu: ", 0, 4)
 
-    def proses(self):
-        pass
-
-    def output(self):
-        self.__array_pegawai.output()
-
     def menu(self):
         pilih = -1
         while pilih != 0:
@@ -293,7 +254,7 @@ class Menu:
                 for i in range(n):
                     p = Pegawai(f"00{i+1}", f"Pegawai {i+1}", (i % 4) + 1, Waktu(8, 0, 0), Waktu(17, 15, 10))
                     array_pegawai1.tambah_pegawai(p)
-                array_pegawai1.output()
+                array_pegawai1.print_all_pegawai()
 
             elif pilih == 2:
                 n = Helper.valid_input_int("Masukkan jumlah pegawai: ", 1, 100)
@@ -306,7 +267,7 @@ class Menu:
                     p.set_datang(Waktu(8, 0, 0))
                     p.set_pulang(Waktu(17, 15, 10))
                     array_pegawai2.tambah_pegawai(p)
-                array_pegawai2.output()
+                array_pegawai2.print_all_pegawai()
 
             elif pilih == 3:
                 n = Helper.valid_input_int("Masukkan jumlah pegawai: ", 1, 100)
@@ -333,13 +294,13 @@ class Menu:
                     p.set_pulang(pl)
 
                     array_pegawai3.tambah_pegawai(p)
-                array_pegawai3.output()
+                array_pegawai3.print_all_pegawai()
 
             elif pilih == 4:
                 n = Helper.valid_input_int("Masukkan jumlah pegawai: ", 1, 100)
                 array_pegawai4 = ArrayPegawai()
-                array_pegawai4.input(n)
-                array_pegawai4.output()
+                array_pegawai4.input_data(n)
+                array_pegawai4.print_all_pegawai()
 
             elif pilih == 0:
                 print("Terima kasih...")
@@ -347,6 +308,9 @@ class Menu:
             else:
                 pass
 
+def main():
+    m = Menu()
+    m.menu()
 
 if __name__ == "__main__":
     main()
