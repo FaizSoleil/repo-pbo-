@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -108,7 +107,7 @@ class Waktu{
         Waktu jarak_waktu(Waktu pulang){
             Waktu hasil;
             int awal = (this->jam * 3600) + (this->menit * 60) + (this->detik);
-            int akhir = (pulang.get_jam() * 3600) + (pulang.get_menit() * 60) + (pulang.get_detik());
+            int akhir = (pulang.get_jam() * 3600) + (pulang.get_menit() * 60) + pulang.get_detik();
             
             if (akhir < awal){
                 akhir += (24 * 3600);
@@ -292,15 +291,7 @@ class Pegawai{
             }
         }
 
-        void input(){
-            input_pegawai();
-        }
-
-        Pegawai proses(){
-            return *this;
-        }
-
-        void output(int no){
+        void print_pegawai(int no){
             cout << left << setw(4) << (to_string(no) + ".") << setw(6) << get_NIP() << setw(16) << get_nama() << setw(8) << get_gol();
             get_datang().print_waktu();
             cout << "   ";
@@ -343,24 +334,16 @@ class ArrayPegawai{
             return this->data;
         }
 
-        void input(int n){
+        void input_data(int n){
             for (int i = 0; i < n; i++){
-                cout << "\n--- Data Pegawai ke-" << i+1 <<  "---";
+                cout << "\n--- Data Pegawai ke-" << i+1 <<  "---" << endl;
                 Pegawai p;
-                p.input();
+                p.input_pegawai();
                 tambah_pegawai(p);
             }
         }
 
-        vector<Pegawai> proses(){
-            vector<Pegawai> hasil;
-            for (int i = 0; i < this->data.size(); i++){
-                hasil.push_back(this->data[i].proses());
-            }
-            return hasil;
-        }
-
-        void output(){
+        void print_all_pegawai(){
             cout << "\n\t\t\t\tDaftar Gaji Harian PT Informatika\n";
             cout << GARIS << endl;
             cout << left << setw(4) << "No" << setw(6) << "NIP" << setw(16) << "Nama" << setw(8) << "Gol"
@@ -369,7 +352,7 @@ class ArrayPegawai{
             cout << GARIS << endl;
 
             for (int i = 0; i < this->data.size(); i++){
-                data[i].output(i + 1);
+                data[i].print_pegawai(i + 1);
             }
 
             cout << GARIS << endl;
@@ -401,8 +384,7 @@ class Menu{
                             Pegawai p("00" + to_string(i + 1), "Pegawai " + to_string(i + 1), (i % 4) + 1, Waktu(8, 0, 0), Waktu(17, 15, 10));
                             array_pegawai1.tambah_pegawai(p);
                         }
-                        array_pegawai1.proses();
-                        array_pegawai1.output();
+                        array_pegawai1.print_all_pegawai();
                         break;
                     }
                     case 2:{
@@ -417,8 +399,7 @@ class Menu{
                             p.set_pulang(Waktu(17, 15, 10));
                             array_pegawai2.tambah_pegawai(p);
                         }
-                        array_pegawai2.proses();
-                        array_pegawai2.output();
+                        array_pegawai2.print_all_pegawai();
                         break;
                     }
                     case 3:{
@@ -451,20 +432,14 @@ class Menu{
 
                             array_pegawai3.tambah_pegawai(p);
                         }
-                        array_pegawai3.proses();
-                        array_pegawai3.output();
+                        array_pegawai3.print_all_pegawai();
                         break;
                     }
                     case 4:{
                         int n = Helper::valid_input_int("Masukkan jumlah pegawai: ", 1, 100);
                         ArrayPegawai array_pegawai4;
-                        
-                        array_pegawai4.input(n);
-                        
-                        array_pegawai4.proses();
-                        
-                        array_pegawai4.output();
-
+                        array_pegawai4.input_data(n);
+                        array_pegawai4.print_all_pegawai();
                         break;
                     }
                     case 0:{
