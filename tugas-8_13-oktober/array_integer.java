@@ -7,7 +7,7 @@ class Helper{
         int angka = 0;
         boolean valid = false;
         do{
-            System.out.printf(pesan);
+            System.out.print(pesan);
             try{
                 angka = sc.nextInt();
                 if (angka < min || angka > maks){
@@ -26,26 +26,31 @@ class Helper{
 }
 
 class ArrayInteger1D{
-    private Integer[] data = new Integer[100];
+    private Integer[] data;
+    private int ukuran;
     private int kapasitas;
 
     public ArrayInteger1D(){
         this.kapasitas = 100;
+        this.data = new Integer[this.kapasitas];
+        this.ukuran = 0;
     }
 
-    public ArrayInteger1D(int kapasitas){
-        this.kapasitas = kapasitas;
-        for (int i = 0; i < kapasitas; i += 1){
-            data[i] = i;
+    public ArrayInteger1D(int jumlah){
+        this.kapasitas = 100;
+        this.data = new Integer[this.kapasitas];
+        this.ukuran = 0;
+        for (int i = 0; i < jumlah; i++){
+            tambah_integer(i);
         }
     }
 
     public void tambah_integer(int integer){
-        if (kapasitas >= 100){
+        if (this.ukuran >= this.kapasitas){
             System.out.println("Kapasitas array sudah full.");
         } else {
-            this.kapasitas++;
-            data[kapasitas] = integer;
+            this.data[this.ukuran] = integer;
+            this.ukuran++;
         }
     }
 
@@ -54,47 +59,50 @@ class ArrayInteger1D{
     }
 
     public void input_data(int jumlah){
+        this.ukuran = 0;
         for (int i = 0; i < jumlah; i++){
             System.out.printf("\n --- Data Integer ke-%d ---\n", i + 1);
             int temp = Helper.validInputInt("Masukkan integer: ", -9999, 9999);
-            data[i] = temp;
+            tambah_integer(temp);
         }
     }
 
     public float get_rata_rata(){
-        float TOTAL_DATA = data.length;
+        if (this.ukuran == 0) return 0;
         float jumlah = 0;
 
-        for (float i : data){
-            jumlah += i;
+        for (int i = 0; i < this.ukuran; i++){
+            jumlah += data[i];
         }
 
-        return (jumlah/TOTAL_DATA);
+        return (jumlah / this.ukuran);
     }
 
     public int get_tertinggi(){
-        int highest = -Integer.MAX_VALUE;
-        for (int i : data){
-            if (highest < i) highest = i;
+        if (this.ukuran == 0) return 0;
+        int highest = data[0];
+        for (int i = 1; i < this.ukuran; i++){
+            if (highest < data[i]) highest = data[i];
         }
 
         return highest;
     }
 
     public int get_terendah(){
-        int lowest = Integer.MAX_VALUE;
-        for (int i : data){
-            if (lowest > i) lowest = i;
+        if (this.ukuran == 0) return 0;
+        int lowest = data[0];
+        for (int i = 1; i < this.ukuran; i++){
+            if (lowest > data[i]) lowest = data[i];
         }
 
         return lowest;
     }
 
     public void bubble_sort_asc() {
-        for (int i = 0; i < this.data.length - 1; i++) {
+        for (int i = 0; i < this.ukuran - 1; i++) {
             boolean swapped = false;
             
-            for (int j = 0; j < this.data.length - i - 1; j++) {
+            for (int j = 0; j < this.ukuran - i - 1; j++) {
                 if (this.data[j] > this.data[j + 1]) {
                     int temp = this.data[j];
                     this.data[j] = this.data[j + 1];
@@ -111,10 +119,10 @@ class ArrayInteger1D{
     }
 
     public void bubble_sort_desc() {
-        for (int i = 0; i < this.data.length - 1; i++) {
+        for (int i = 0; i < this.ukuran - 1; i++) {
             boolean swapped = false;
             
-            for (int j = 0; j < this.data.length - i - 1; j++) {
+            for (int j = 0; j < this.ukuran - i - 1; j++) {
                 if (this.data[j] < this.data[j + 1]) {
                     int temp = this.data[j];
                     this.data[j] = this.data[j + 1];
@@ -131,8 +139,8 @@ class ArrayInteger1D{
     }
 
     public void printData(){
-        for (int i = 0; i < this.data.length; i++){
-            System.out.printf("%.0f ", this.data[i]);
+        for (int i = 0; i < this.ukuran; i++){
+            System.out.printf("%d ", this.data[i]);
         }
     }
 }
@@ -155,8 +163,8 @@ class Menu{
     public static void print_test(int objek_nomor, ArrayInteger1D array){
         System.out.printf("Objek ke-%d\n", objek_nomor);
         System.out.printf("Rata-rata: %.2f\n", array.get_rata_rata());
-        System.out.printf("Tertinggi: %.0f\n", array.get_tertinggi());
-        System.out.printf("Terendah: %.0f\n", array.get_terendah());
+        System.out.printf("Tertinggi: %d\n", array.get_tertinggi());
+        System.out.printf("Terendah: %d\n", array.get_terendah());
         System.out.println("Data awal:");
         array.printData();
 
@@ -201,7 +209,7 @@ class Menu{
                     ArrayInteger1D array_integer3 = new ArrayInteger1D();
 
                     for (int i = 0; i < n; i++){
-                        System.out.printf("\n --- Data Integer ke-%.0f ---\n", i + 1);
+                        System.out.printf("\n --- Data Integer ke-%d ---\n", i + 1);
                         int temp = Helper.validInputInt("Masukkan integer: ", -9999, 9999);
                         array_integer3.tambah_integer(temp);
                     }
@@ -220,9 +228,11 @@ class Menu{
                 }
                 case 0:{
                     System.out.println("Terima kasih sudah menggunakan program ini.");
+                    break;
                 }
                 default:{
                     System.out.println("Pilihan tidak valid.");
+                    break;
                 }
             }
         }
