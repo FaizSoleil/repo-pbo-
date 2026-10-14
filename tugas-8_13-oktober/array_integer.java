@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 class Helper{
@@ -27,7 +26,7 @@ class Helper{
 }
 
 class ArrayInteger1D{
-    private ArrayList<Float> data = new ArrayList<>();
+    private Integer[] data = new Integer[100];
     private int kapasitas;
 
     public ArrayInteger1D(){
@@ -36,50 +35,55 @@ class ArrayInteger1D{
 
     public ArrayInteger1D(int kapasitas){
         this.kapasitas = kapasitas;
-        for (float i = 0; i < kapasitas; i += 1){
-            data.add(i);
+        for (int i = 0; i < kapasitas; i += 1){
+            data[i] = i;
         }
     }
 
-    public void tambah_integer(float integer){
-        data.add(integer);
+    public void tambah_integer(int integer){
+        if (kapasitas >= 100){
+            System.out.println("Kapasitas array sudah full.");
+        } else {
+            this.kapasitas++;
+            data[kapasitas] = integer;
+        }
     }
 
-    public ArrayList<Float> get_data(){
+    public Integer[] get_data(){
         return this.data;
     }
 
     public void input_data(int jumlah){
         for (int i = 0; i < jumlah; i++){
             System.out.printf("\n --- Data Integer ke-%d ---\n", i + 1);
-            float temp = Helper.validInputInt("Masukkan integer: ", -9999, 9999);
-            data.add(temp);
+            int temp = Helper.validInputInt("Masukkan integer: ", -9999, 9999);
+            data[i] = temp;
         }
     }
 
     public float get_rata_rata(){
-        int TOTAL_DATA = data.size();
+        float TOTAL_DATA = data.length;
         float jumlah = 0;
 
         for (float i : data){
             jumlah += i;
         }
 
-        return jumlah/TOTAL_DATA;
+        return (jumlah/TOTAL_DATA);
     }
 
-    public float get_tertinggi(){
-        float highest = -Float.MAX_VALUE;
-        for (float i : data){
+    public int get_tertinggi(){
+        int highest = -Integer.MAX_VALUE;
+        for (int i : data){
             if (highest < i) highest = i;
         }
 
         return highest;
     }
 
-    public float get_terendah(){
-        float lowest = Float.MAX_VALUE;
-        for (float i : data){
+    public int get_terendah(){
+        int lowest = Integer.MAX_VALUE;
+        for (int i : data){
             if (lowest > i) lowest = i;
         }
 
@@ -87,14 +91,14 @@ class ArrayInteger1D{
     }
 
     public void bubble_sort_asc() {
-        for (int i = 0; i < this.data.size() - 1; i++) {
+        for (int i = 0; i < this.data.length - 1; i++) {
             boolean swapped = false;
             
-            for (int j = 0; j < this.data.size() - i - 1; j++) {
-                if (this.data.get(j) > this.data.get(j+1)) {
-                    float temp = this.data.get(j);
-                    this.data.set(j, this.data.get(j + 1));
-                    this.data.set(j + 1, temp);
+            for (int j = 0; j < this.data.length - i - 1; j++) {
+                if (this.data[j] > this.data[j + 1]) {
+                    int temp = this.data[j];
+                    this.data[j] = this.data[j + 1];
+                    this.data[j + 1] = temp;
                     
                     swapped = true;
                 }
@@ -107,14 +111,14 @@ class ArrayInteger1D{
     }
 
     public void bubble_sort_desc() {
-        for (int i = 0; i < this.data.size() - 1; i++) {
+        for (int i = 0; i < this.data.length - 1; i++) {
             boolean swapped = false;
             
-            for (int j = 0; j < this.data.size() - i - 1; j++) {
-                if (this.data.get(j) < this.data.get(j+1)) {
-                    float temp = this.data.get(j);
-                    this.data.set(j, this.data.get(j + 1));
-                    this.data.set(j + 1, temp);
+            for (int j = 0; j < this.data.length - i - 1; j++) {
+                if (this.data[j] < this.data[j + 1]) {
+                    int temp = this.data[j];
+                    this.data[j] = this.data[j + 1];
+                    this.data[j + 1] = temp;
                     
                     swapped = true;
                 }
@@ -127,8 +131,8 @@ class ArrayInteger1D{
     }
 
     public void printData(){
-        for (int i = 0; i < this.data.size(); i++){
-            System.out.printf("%.0f ", this.data.get(i));
+        for (int i = 0; i < this.data.length; i++){
+            System.out.printf("%.0f ", this.data[i]);
         }
     }
 }
@@ -196,9 +200,9 @@ class Menu{
                     int n = Helper.validInputInt("Masukkan jumlah integer: ", 1, 100);
                     ArrayInteger1D array_integer3 = new ArrayInteger1D();
 
-                    for (float i = 0; i < n; i++){
+                    for (int i = 0; i < n; i++){
                         System.out.printf("\n --- Data Integer ke-%.0f ---\n", i + 1);
-                        float temp = Helper.validInputInt("Masukkan integer: ", -9999, 9999);
+                        int temp = Helper.validInputInt("Masukkan integer: ", -9999, 9999);
                         array_integer3.tambah_integer(temp);
                     }
 
