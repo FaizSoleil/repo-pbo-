@@ -68,31 +68,40 @@ class ArrayInteger1D{
     }
 
     public float get_rata_rata(){
-        if (this.ukuran == 0) return 0;
         float jumlah = 0;
+        if (this.ukuran == 0) {
+            jumlah = 0;
+        } else {
+            for (int i = 0; i < this.ukuran; i++){
+                jumlah += data[i];
+            }
 
-        for (int i = 0; i < this.ukuran; i++){
-            jumlah += data[i];
+            jumlah = (jumlah / this.ukuran);
         }
-
-        return (jumlah / this.ukuran);
+        
+        return jumlah;
     }
 
     public int get_tertinggi(){
-        if (this.ukuran == 0) return 0;
-        int highest = data[0];
-        for (int i = 1; i < this.ukuran; i++){
-            if (highest < data[i]) highest = data[i];
+        int highest;
+        if (this.ukuran == 0) highest = 0;
+        else {
+            highest = data[0];
+            for (int i = 1; i < this.ukuran; i++){
+                if (highest < data[i]) highest = data[i];
+            }
         }
-
         return highest;
     }
 
     public int get_terendah(){
-        if (this.ukuran == 0) return 0;
-        int lowest = data[0];
-        for (int i = 1; i < this.ukuran; i++){
-            if (lowest > data[i]) lowest = data[i];
+        int lowest;
+        if (this.ukuran == 0) lowest = 0;
+        else {
+            lowest = data[0];
+            for (int i = 1; i < this.ukuran; i++){
+                if (lowest > data[i]) lowest = data[i];
+            }
         }
 
         return lowest;
