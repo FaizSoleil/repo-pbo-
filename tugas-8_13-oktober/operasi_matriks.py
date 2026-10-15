@@ -8,13 +8,6 @@
 
 
 class Matriks:
-    # REMEMBER!!:
-    # Method-method disini akan throw exception (raise ValueError di python) bila data yang diberikan tidak valid
-    # hal ini untuk melindungi dari adanya kerusakan yang terjadi pada objek yang sudah di instansiasi
-    # karrena itu, jangan lupa untuk membungkus semua pemanggilan method yang raise ValueError dengan try-catch
-    #
-    # fungsi-fungsi disini meng-pass dan return copy dari matriks ([row[:] for row in data])
-    # untuk menghindari akses dari luar method class, yang di assign ke self.data adalah copy dari data
 
     def __init__(self, baris=0, kolom=0, data=None):
         if not self._dimensi_valid(baris) or not self._dimensi_valid(kolom):
