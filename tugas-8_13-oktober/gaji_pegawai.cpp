@@ -1,10 +1,21 @@
+/***********************************************************
+ *    Nama File    : gaji_pegawai.cpp
+ *    Nama Kelompok:
+ *      - Muhammad Athar Alfarisi (140810250005)
+ *      - Muhammad Faiz Hariy Nugroho (140810250029)
+ *      - Gibraldi Zilal Fachry (140810250038)
+ *    Tanggal Buat : 12 September 2026
+ *    Deskripsi    : Program untuk mengolah array data pegawai
+ ***********************************************************/
+
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <vector>
+#include <cmath>
+
 using namespace std;
 
-class Helper{
+class Helper {
     public:
         static int valid_input_int(string pesan, int min, int maks) {
             int angka = 0;
@@ -37,82 +48,82 @@ class Helper{
         }
 };
 
-class Waktu{
+class Waktu {
     private:
         int jam;
         int menit;
         int detik;
 
     public:
-        Waktu(){
+        Waktu() {
             this->jam = 0;
             this->menit = 0;
             this->detik = 0;
         }
 
-        Waktu(int jam, int menit, int detik){
+        Waktu(int jam, int menit, int detik) {
             this->jam = jam;
             this->menit = menit;
             this->detik = detik;
         }
 
-        void set_waktu(int jam, int menit, int detik){
+        void set_waktu(int jam, int menit, int detik) {
             this->jam = jam;
             this->menit = menit;
             this->detik = detik;
         }
 
-        void set_jam(int jam){
+        void set_jam(int jam) {
             this->jam = jam;
         }
 
-        void set_menit(int menit){
+        void set_menit(int menit) {
             this->menit = menit;
         }
 
-        void set_detik(int detik){
+        void set_detik(int detik) {
             this->detik = detik;
         }
 
-        void input_waktu(){
+        void input_waktu() {
             this->jam = Helper::valid_input_int("Masukkan jam: ", 0, 23);
             this->menit = Helper::valid_input_int("Masukkan menit: ", 0, 59);
             this->detik = Helper::valid_input_int("Masukkan detik: ", 0, 59);
         }
 
-        int get_jam(){
+        int get_jam() {
             return this->jam;
         }
 
-        int get_menit(){
+        int get_menit() {
             return this->menit;
         }
 
-        int get_detik(){
+        int get_detik() {
             return this->detik;
         }
 
-        void print_waktu(){
+        void print_waktu() {
             cout << right << setfill('0') << setw(2) << this->jam << ":"
-                 << setfill('0') << setw(2) << this->menit << ":"
-                 << setfill('0') << setw(2) << this->detik << setfill(' ');
+                << setfill('0') << setw(2) << this->menit << ":"
+                << setfill('0') << setw(2) << this->detik << setfill(' ');
         }
 
-        void print_waktu_jam_lembur(){
+        void print_waktu_jam_lembur() {
             cout << this->jam << ":"
-                 << setfill('0') << setw(2) << this->menit << ":"
-                 << setfill('0') << setw(2) << this->detik << setfill(' ');
+                << setfill('0') << setw(2) << this->menit << ":"
+                << setfill('0') << setw(2) << this->detik << setfill(' ');
         }
 
-        Waktu jarak_waktu(Waktu pulang){
+        Waktu jarak_waktu(Waktu pulang) {
             Waktu hasil;
             int awal = (this->jam * 3600) + (this->menit * 60) + (this->detik);
             int akhir = (pulang.get_jam() * 3600) + (pulang.get_menit() * 60) + pulang.get_detik();
-            
-            if (akhir < awal){
+
+            if (akhir < awal) {
                 akhir += (24 * 3600);
             }
-            
+
             int selisih = abs(akhir - awal);
 
             hasil.set_jam(selisih / 3600);
@@ -124,8 +135,8 @@ class Waktu{
             return hasil;
         }
 
-        void lembur(Waktu lama){
-            if (lama.get_jam() >= 8){
+        void lembur(Waktu lama) {
+            if (lama.get_jam() >= 8) {
                 this->jam = lama.get_jam() - 8;
                 this->menit = lama.get_menit();
                 this->detik = lama.get_detik();
@@ -137,24 +148,22 @@ class Waktu{
         }
 };
 
-class Pegawai{
+class Pegawai {
     private:
         string NIP;
         string nama;
         int gol;
         Waktu datang;
         Waktu pulang;
-    
+
     public:
-        Pegawai(){
+        Pegawai() {
             this->NIP = "";
             this->nama = "";
             this->gol = 0;
-            this->datang;
-            this->pulang;
         }
 
-        Pegawai(string NIP, string nama, int gol, Waktu datang, Waktu pulang){
+        Pegawai(string NIP, string nama, int gol, Waktu datang, Waktu pulang) {
             this->NIP = NIP;
             this->nama = nama;
             this->gol = gol;
@@ -165,133 +174,117 @@ class Pegawai{
         void input_pegawai() {
             cout << "Masukkan NIP: ";
             cin >> NIP;
-            
+
             cout << "Masukkan Nama: ";
             cin.ignore();
             getline(cin, nama);
-            
+
             cout << "Masukkan Golongan (1-4): ";
             gol = Helper::valid_input_int("Golongan: ", 1, 4);
-            
+
             cout << "\n--- Input Waktu Datang ---" << endl;
             datang.input_waktu();
-            
+
             cout << "\n--- Input Waktu Pulang ---" << endl;
             pulang.input_waktu();
         }
 
-        void set_pegawai(string NIP, string nama, int gol){
+        void set_pegawai(string NIP, string nama, int gol) {
             this->NIP = NIP;
             this->nama = nama;
             this->gol = gol;
         }
 
-        void set_NIP(string NIP){
+        void set_NIP(string NIP) {
             this->NIP = NIP;
         }
 
-        void set_nama(string nama){
+        void set_nama(string nama) {
             this->nama = nama;
         }
 
-        void set_gol(int gol){
+        void set_gol(int gol) {
             this->gol = gol;
         }
 
-        void set_datang(Waktu datang){
+        void set_datang(Waktu datang) {
             this->datang = datang;
         }
 
-        void set_pulang(Waktu pulang){
+        void set_pulang(Waktu pulang) {
             this->pulang = pulang;
         }
 
-        string get_NIP(){
+        string get_NIP() {
             return this->NIP;
         }
 
-        string get_nama(){
+        string get_nama() {
             return this->nama;
         }
 
-        int get_gol(){
+        int get_gol() {
             return this->gol;
         }
 
-        Waktu get_datang(){
+        Waktu get_datang() {
             return this->datang;
         }
 
-        Waktu get_pulang(){
+        Waktu get_pulang() {
             return this->pulang;
         }
 
-        Waktu get_lama_kerja(){
+        Waktu get_lama_kerja() {
             return datang.jarak_waktu(pulang);
         }
 
-        Waktu get_waktu_lembur(){
+        Waktu get_waktu_lembur() {
             Waktu lama = get_lama_kerja();
             Waktu lembur;
             lembur.lembur(lama);
             return lembur;
         }
 
-        int get_gaji_harian(){
+        int get_gaji_harian() {
             int gaji = 0;
-            switch(gol){
-                case 1:
-                    gaji = 150000;
-                    break;
-                case 2:
-                    gaji = 200000;
-                    break;
-                case 3:
-                    gaji = 400000;
-                    break;
-                case 4:
-                    gaji = 500000;
-                    break;
+            switch (gol) {
+                case 1: gaji = 150000; break;
+                case 2: gaji = 200000; break;
+                case 3: gaji = 400000; break;
+                case 4: gaji = 500000; break;
             }
             return gaji;
         }
 
-        int get_biaya_lembur(){
+        int get_biaya_lembur() {
             int bayaran = 0;
-            switch(gol){
-                case 1:
-                    bayaran = 50000;
-                    break;
-                case 2:
-                    bayaran = 75000;
-                    break;
-                case 3:
-                    bayaran = 150000;
-                    break;
-                case 4:
-                    bayaran = 200000;
-                    break;
+            switch (gol) {
+                case 1: bayaran = 50000; break;
+                case 2: bayaran = 75000; break;
+                case 3: bayaran = 150000; break;
+                case 4: bayaran = 200000; break;
             }
             return bayaran;
         }
 
-        int get_uang_lembur_total(){
+        int get_uang_lembur_total() {
             return get_waktu_lembur().get_jam() * get_biaya_lembur();
         }
 
-        int get_total_gaji(){
+        int get_total_gaji() {
             return get_gaji_harian() + get_uang_lembur_total();
         }
 
-        string get_status(){
-            if (get_lama_kerja().get_jam() < 8){
+        string get_status() {
+            if (get_lama_kerja().get_jam() < 8) {
                 return "peringatan";
             } else {
                 return "ok";
             }
         }
 
-        void print_pegawai(int no){
+        void print_pegawai(int no) {
             cout << left << setw(4) << (to_string(no) + ".") << setw(6) << get_NIP() << setw(16) << get_nama() << setw(8) << get_gol();
             get_datang().print_waktu();
             cout << "   ";
@@ -302,56 +295,66 @@ class Pegawai{
             get_waktu_lembur().print_waktu_jam_lembur();
             cout << "     ";
             cout << left << setw(14) << Helper::format_ribuan(get_gaji_harian())
-             << setw(13) << Helper::format_ribuan(get_uang_lembur_total())
-             << setw(14) << Helper::format_ribuan(get_total_gaji())
-             << setw(10) << get_status() << endl;
+                << setw(13) << Helper::format_ribuan(get_uang_lembur_total())
+                << setw(14) << Helper::format_ribuan(get_total_gaji())
+                << setw(10) << get_status() << endl;
         }
 };
 
-class ArrayPegawai{
+class ArrayPegawai {
     string GARIS = string(132, '-');
 
     private:
-        vector<Pegawai> data;
+        static const int MAX = 100;
+
+        Pegawai data [MAX];
         int kapasitas;
 
     public:
-        ArrayPegawai(){
-            this->kapasitas = 100;
+        ArrayPegawai() {
+            this->kapasitas = 0;
+            this->data[MAX];
         }
 
-        ArrayPegawai(int kapasitas){
+        ArrayPegawai(int kapasitas) {
             this->kapasitas = kapasitas;
+            this->data[this->kapasitas];
         }
 
-        void tambah_pegawai(Pegawai pegawai){
-            if (data.size() < this->kapasitas){
-                this->data.push_back(pegawai);
+        void tambah_pegawai(Pegawai pegawai) {
+            if (this->kapasitas < this->MAX) {
+                this->data[this->kapasitas] = pegawai;
+                this->kapasitas++;
             }
         }
 
-        vector<Pegawai> get_data(){
-            return this->data;
+        Pegawai get_data() {
+            return this->data[kapasitas];
         }
 
-        void input_data(int n){
-            for (int i = 0; i < n; i++){
-                cout << "\n--- Data Pegawai ke-" << i+1 <<  "---" << endl;
+        int get_jumlah() {
+            return this->kapasitas;
+        }
+
+        void input_data(int n) {
+            this->kapasitas = 0;
+            for (int i = 0; i < n; i++) {
+                cout << "\n--- Data Pegawai ke-" << i + 1 << " ---" << endl;
                 Pegawai p;
                 p.input_pegawai();
                 tambah_pegawai(p);
             }
         }
 
-        void print_all_pegawai(){
+        void print_all_pegawai() {
             cout << "\n\t\t\t\tDaftar Gaji Harian PT Informatika\n";
             cout << GARIS << endl;
             cout << left << setw(4) << "No" << setw(6) << "NIP" << setw(16) << "Nama" << setw(8) << "Gol"
-                 << setw(11) << "Datang" << setw(11) << "Pulang" << setw(13) << "Lama" << setw(13) << "Jam Lembur"
-                 << setw(14) << "Gaji Harian" << setw(13) << "Lembur" << setw(14) << "Total" << setw(10) << "Status" << endl;
+                << setw(11) << "Datang" << setw(11) << "Pulang" << setw(13) << "Lama" << setw(13) << "Jam Lembur"
+                << setw(14) << "Gaji Harian" << setw(13) << "Lembur" << setw(14) << "Total" << setw(10) << "Status" << endl;
             cout << GARIS << endl;
 
-            for (int i = 0; i < this->data.size(); i++){
+            for (int i = 0; i < this->kapasitas; i++) {
                 data[i].print_pegawai(i + 1);
             }
 
@@ -359,25 +362,25 @@ class ArrayPegawai{
         }
 };
 
-class Menu{
+class Menu {
     public:
-        static void display_menu(){
+        static void display_menu() {
             cout << "\n============= MENU ===============" <<
-            endl << "1. CONTRUCTOR KONSTANTA" <<
-            endl << "2. SETTER KONSTANTA" <<
-            endl << "3. SETTER INPUT LUAR" <<
-            endl << "4. INPUT DALAM" <<
-            endl << "0. KELUAR" <<
-            endl << "==================================\n";
+                endl << "1. CONSTRUCTOR KONSTANTA" <<
+                endl << "2. SETTER KONSTANTA" <<
+                endl << "3. SETTER INPUT LUAR" <<
+                endl << "4. INPUT DALAM" <<
+                endl << "0. KELUAR" <<
+                endl << "==================================\n";
         }
 
-        static void menu(){
+        static void menu() {
             int pilih = -1;
             do {
                 Menu::display_menu();
                 pilih = Helper::valid_input_int("Menu: ", 0, 4);
-                switch (pilih){
-                    case 1:{
+                switch (pilih) {
+                    case 1: {
                         int n = Helper::valid_input_int("Masukkan jumlah pegawai: ", 1, 100);
                         ArrayPegawai array_pegawai1;
                         for (int i = 0; i < n; i++) {
@@ -387,7 +390,7 @@ class Menu{
                         array_pegawai1.print_all_pegawai();
                         break;
                     }
-                    case 2:{
+                    case 2: {
                         int n = Helper::valid_input_int("Masukkan jumlah pegawai: ", 1, 100);
                         ArrayPegawai array_pegawai2;
                         for (int i = 0; i < n; i++) {
@@ -402,7 +405,7 @@ class Menu{
                         array_pegawai2.print_all_pegawai();
                         break;
                     }
-                    case 3:{
+                    case 3: {
                         int n = Helper::valid_input_int("Masukkan jumlah pegawai: ", 1, 100);
                         ArrayPegawai array_pegawai3;
                         for (int i = 0; i < n; i++) {
@@ -435,24 +438,23 @@ class Menu{
                         array_pegawai3.print_all_pegawai();
                         break;
                     }
-                    case 4:{
+                    case 4: {
                         int n = Helper::valid_input_int("Masukkan jumlah pegawai: ", 1, 100);
                         ArrayPegawai array_pegawai4;
                         array_pegawai4.input_data(n);
                         array_pegawai4.print_all_pegawai();
                         break;
                     }
-                    case 0:{
+                    case 0: {
                         cout << "Terima kasih...\n";
                         break;
                     }
-                    
                 }
             } while (pilih != 0);
         }
 };
 
-int main(){
+int main() {
     Menu::menu();
     return 0;
 }
