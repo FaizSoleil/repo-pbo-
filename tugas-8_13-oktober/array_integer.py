@@ -19,6 +19,15 @@ class ArrayInteger1D:
         if len(self.__data) < self.__kapasitas:
             self.__data.append(integer)
 
+    def set_kapasitas(self, kapasitas):
+        self.__kapasitas = kapasitas
+
+    def set_data(self, data):
+        self.__data = data
+
+    def get_kapasitas(self):
+        return self.__kapasitas
+    
     def get_data(self):
         return self.__data
 

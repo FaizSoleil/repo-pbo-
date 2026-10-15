@@ -54,6 +54,14 @@ class ArrayInteger1D{
         }
     }
 
+    public int get_ukuran(){
+        return this.ukuran;
+    }
+
+    public int get_kapasitas(){
+        return this.kapasitas;
+    }
+
     public Integer[] get_data(){
         return this.data;
     }
