@@ -1,15 +1,25 @@
-import sys
-from pathlib import Path
+#    Nama File    : array_integer.py
+#    Nama Kelompok:
+#      - Muhammad Athar Alfarisi (140810250005)
+#      - Muhammad Faiz Hariy Nugroho (140810250029)
+#      - Gibraldi Zilal Fachry (140810250038)
+#    Tanggal Buat : 08 Oktober 2026
+#    Deskripsi    : Program array
 
-sys.path.append(str(Path(__file__).resolve().parents[1]/"common"/"py"))
-
-from helpers import Inputs
-
-def main():
-    Menu.runMenu()
+class Helper:
+    @staticmethod
+    def valid_input_int(pesan, minimum=-9999, maksimum=9999):
+        while True:
+            try:
+                angka = int(input(pesan))
+                if minimum <= angka <= maksimum:
+                    return angka
+            except ValueError:
+                pass
+            print(f"Input harus angka {minimum} - {maksimum}!!")
 
 class ArrayInteger1D:
-    def __init__(self, data = 0, kapasitas=100):
+    def __init__(self, data=0, kapasitas=100):
         self.__data = []
         self.__kapasitas = kapasitas
         for i in range(data):
@@ -19,47 +29,62 @@ class ArrayInteger1D:
         if len(self.__data) < self.__kapasitas:
             self.__data.append(integer)
 
+    def set_kapasitas(self, kapasitas):
+        self.__kapasitas = kapasitas
+
+    def set_data(self, data):
+        self.__data = data
+
+    def get_kapasitas(self):
+        return self.__kapasitas
+    
     def get_data(self):
         return self.__data
 
-    def input_data(self, jumlah = 1):
+    def input_data(self, jumlah=1):
         self.__data = []
         for i in range(jumlah):
             print(f"\n --- Data Integer ke-{i+1} ---")
-            integer_input = Inputs.valid_input_int("Masukkan integer: ")
+            integer_input = Helper.valid_input_int("Masukkan integer: ", -9999, 9999)
             self.tambah_integer(integer_input)
 
     def get_rata_rata(self):
         TOTAL_DATA = len(self.__data)
+        if TOTAL_DATA == 0:
+            return 0.0
+        
         jumlah = 0
-
         for i in range(len(self.__data)):
             jumlah += self.__data[i]
 
-        return jumlah/TOTAL_DATA
+        return jumlah / TOTAL_DATA
 
     def get_tertinggi(self):
-        highest = float('-inf')
-
-        for i in range(len(self.__data)):
+        if not self.__data:
+            return 0
+        
+        highest = self.__data[0]
+        for i in range(1, len(self.__data)):
             if self.__data[i] > highest:
                 highest = self.__data[i]
 
         return highest
 
     def get_terendah(self):
-            lowest = float('inf')
-    
-            for i in range(len(self.__data)):
-                if self.__data[i] < lowest:
-                    lowest = self.__data[i]
-    
-            return lowest
+        if not self.__data:
+            return 0
+            
+        lowest = self.__data[0]
+        for i in range(1, len(self.__data)):
+            if self.__data[i] < lowest:
+                lowest = self.__data[i]
+
+        return lowest
 
     def bubble_sort_asc(self):
         for i in range(len(self.__data) - 1):
             swapped = False
-            for j in range(len(self.__data)-i-1):
+            for j in range(len(self.__data) - i - 1):
                 if self.__data[j] > self.__data[j+1]:
                     self.__data[j], self.__data[j+1] = self.__data[j+1], self.__data[j]
                     swapped = True
@@ -69,7 +94,7 @@ class ArrayInteger1D:
     def bubble_sort_desc(self):
         for i in range(len(self.__data) - 1):
             swapped = False
-            for j in range(len(self.__data)-i-1):
+            for j in range(len(self.__data) - i - 1):
                 if self.__data[j] < self.__data[j+1]:
                     self.__data[j], self.__data[j+1] = self.__data[j+1], self.__data[j]
                     swapped = True
@@ -93,7 +118,7 @@ class Menu:
 
     @staticmethod
     def input():
-        return Inputs.valid_input_int("Menu: ", 0, 4)
+        return Helper.valid_input_int("Menu: ", 0, 4)
 
     @staticmethod
     def print_test(objek_nomor, array_integer):
@@ -111,6 +136,7 @@ class Menu:
         array_integer.bubble_sort_desc()
         print("\nData sorted desc:")
         array_integer.printData()
+        print()
 
     @staticmethod
     def runMenu():
@@ -121,7 +147,7 @@ class Menu:
             pilihan = Menu.input()
             match pilihan:
                 case 1:
-                    n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
+                    n = Helper.valid_input_int("Masukkan jumlah integer: ", 1, 100)
                     array_integer1 = ArrayInteger1D()
 
                     for i in range(n):
@@ -130,24 +156,24 @@ class Menu:
                     Menu.print_test(1, array_integer1)
 
                 case 2:
-                    n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
+                    n = Helper.valid_input_int("Masukkan jumlah integer: ", 1, 100)
                     array_integer2 = ArrayInteger1D(n)
 
                     Menu.print_test(2, array_integer2)
 
                 case 3:
-                    n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
+                    n = Helper.valid_input_int("Masukkan jumlah integer: ", 1, 100)
                     array_integer3 = ArrayInteger1D()
 
                     for i in range(n):
                         print(f"\n --- Data Integer ke-{i+1} ---")
-                        Inputs.valid_input_int("Masukkan integer: ")
-                        array_integer3.tambah_integer(i)
+                        input_user = Helper.valid_input_int("Masukkan integer: ", -9999, 9999)
+                        array_integer3.tambah_integer(input_user)
 
                     Menu.print_test(3, array_integer3)
 
                 case 4:
-                    n = Inputs.valid_input_int("Masukkan jumlah integer: ", 1, 100)
+                    n = Helper.valid_input_int("Masukkan jumlah integer: ", 1, 100)
                     array_integer4 = ArrayInteger1D()
                     array_integer4.input_data(n)
 
@@ -158,6 +184,10 @@ class Menu:
 
                 case _:
                     print("Pilihan tidak valid.")
+
+
+def main():
+    Menu.runMenu()
 
 if __name__ == "__main__":
     main()
