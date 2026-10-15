@@ -1,3 +1,13 @@
+/***********************************************************
+ *    Nama File    : OperasiMatriks.java
+ *    Nama Kelompok:
+ *      - Muhammad Athar Alfarisi (140810250005)
+ *      - Muhammad Faiz Hariy Nugroho (140810250029)
+ *      - Gibraldi Zilal Fachry (140810250038)
+ *    Tanggal Buat : 15 Oktober 2026
+ *    Deskripsi    : Program Matriks
+ ***********************************************************/
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
