@@ -3,7 +3,7 @@
 #      - Muhammad Athar Alfarisi (140810250005)
 #      - Muhammad Faiz Hariy Nugroho (140810250029)
 #      - Gibraldi Zilal Fachry (140810250038)
-#    Tanggal Buat : 08 Oktober 202  6
+#    Tanggal Buat : 08 Oktober 2026
 #    Deskripsi    : Program array
 
 import sys
