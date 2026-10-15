@@ -1,10 +1,6 @@
 #include "helpers.hpp"
 
-float Helper::inputFloat(
-std::string message, 
-float minimum = std::numeric_limits<float>::lowest(), 
-float maximum = std::numeric_limits<float>::max()
-) {
+float Helper::inputFloat(std::string message, float minimum, float maximum) {
     float input;
 
     while (true)
@@ -19,7 +15,7 @@ float maximum = std::numeric_limits<float>::max()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             continue;
-        } else if (minimum <= input && input <= maximum) 
+        } else if (input >= minimum && input <= maximum) 
         {
             std::printf("Invalid input, please enter a number between %d and %d.\n\n", minimum, maximum);
             std::cin.clear();
@@ -32,11 +28,7 @@ float maximum = std::numeric_limits<float>::max()
     return input;
 }
 
-int Helper::inputInteger(
-std::string message, 
-int minimum = std::numeric_limits<int>::lowest(), 
-int maximum = std::numeric_limits<int>::max()
-) {
+int Helper::inputInteger(std::string message, int minimum, int maximum) {
     int input;
 
     while (true)
@@ -51,7 +43,7 @@ int maximum = std::numeric_limits<int>::max()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             continue;
-        } else if (minimum <= input && input <= maximum) 
+        } else if (minimum >= input && maximum <= input) 
         {
             std::printf("Invalid input, please enter a number between %d and %d.\n\n", minimum, maximum);
             std::cin.clear();

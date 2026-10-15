@@ -3,8 +3,6 @@
 #include <iostream>
 #include <limits>
 
-
-
 class Helper {
     public:
     static float inputFloat
