@@ -1,3 +1,11 @@
+#    Nama File    : array_integer.py
+#    Nama Kelompok:
+#      - Muhammad Athar Alfarisi (140810250005)
+#      - Muhammad Faiz Hariy Nugroho (140810250029)
+#      - Gibraldi Zilal Fachry (140810250038)
+#    Tanggal Buat : 08 Oktober 202  6
+#    Deskripsi    : Program array
+
 import sys
 from pathlib import Path
 
