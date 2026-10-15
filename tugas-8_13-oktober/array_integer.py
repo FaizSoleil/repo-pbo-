@@ -1,3 +1,11 @@
+#    Nama File    : array_integer.py
+#    Nama Kelompok:
+#      - Muhammad Athar Alfarisi (140810250005)
+#      - Muhammad Faiz Hariy Nugroho (140810250029)
+#      - Gibraldi Zilal Fachry (140810250038)
+#    Tanggal Buat : 08 Oktober 202  6
+#    Deskripsi    : Program array
+
 import sys
 from pathlib import Path
 
@@ -19,6 +27,15 @@ class ArrayInteger1D:
         if len(self.__data) < self.__kapasitas:
             self.__data.append(integer)
 
+    def set_kapasitas(self, kapasitas):
+        self.__kapasitas = kapasitas
+
+    def set_data(self, data):
+        self.__data = data
+
+    def get_kapasitas(self):
+        return self.__kapasitas
+    
     def get_data(self):
         return self.__data
 

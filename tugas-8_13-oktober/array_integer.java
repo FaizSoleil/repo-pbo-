@@ -1,3 +1,13 @@
+/***********************************************************
+ *    Nama File    : array_integer.java
+ *    Nama Kelompok:
+ *      - Muhammad Athar Alfarisi (140810250005)
+ *      - Muhammad Faiz Hariy Nugroho (140810250029)
+ *      - Gibraldi Zilal Fachry (140810250038)
+ *    Tanggal Buat : 28 September 2026
+ *    Deskripsi    : Program array
+ ***********************************************************/
+
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
@@ -52,6 +62,14 @@ class ArrayInteger1D{
             this.data[this.ukuran] = integer;
             this.ukuran++;
         }
+    }
+
+    public int get_ukuran(){
+        return this.ukuran;
+    }
+
+    public int get_kapasitas(){
+        return this.kapasitas;
     }
 
     public Integer[] get_data(){
