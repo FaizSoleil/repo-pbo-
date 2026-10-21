@@ -193,6 +193,9 @@ class Matriks {
     }
 
     public static Matriks tambah_matriks_return(Matriks A, Matriks B) {
+        if ((A.get_kolom() != B.get_kolom()) || (A.get_baris() != B.get_baris())){
+            throw std::invalid_argument("Jumlah kolom dan baris A harus sama dengan jumlah kolom dan baris B");
+        }
         Matriks hasil = new Matriks(A.get_baris(), A.get_kolom());
 
         for (int i = 0; i < A.get_baris(); i++) {

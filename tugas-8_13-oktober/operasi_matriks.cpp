@@ -149,6 +149,10 @@ class Matriks {
     } //gak jadi buat copy cons :p
 
     static Matriks tambah_matriks_return(const Matriks& A, const Matriks& B) {
+        if ((A.get_kolom() != B.get_kolom()) || (A.get_baris() != B.get_baris())){
+            throw std::invalid_argument("Jumlah kolom dan baris A harus sama dengan jumlah kolom dan baris B");
+        }
+        
         Matriks hasil(A.get_baris(), A.get_kolom());
 
         for (int i = 0; i < A.get_baris(); ++i) {
