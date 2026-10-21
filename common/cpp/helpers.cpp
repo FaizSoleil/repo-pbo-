@@ -15,7 +15,7 @@ float Helper::inputFloat(std::string message, float minimum, float maximum) {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             continue;
-        } else if (input >= minimum && input <= maximum) 
+        } else if (input < minimum || input > maximum) 
         {
             std::printf("Invalid input, please enter a number between %d and %d.\n\n", minimum, maximum);
             std::cin.clear();
@@ -43,7 +43,7 @@ int Helper::inputInteger(std::string message, int minimum, int maximum) {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             continue;
-        } else if (minimum >= input && maximum <= input) 
+        } else if (input < minimum || input > maximum) 
         {
             std::printf("Invalid input, please enter a number between %d and %d.\n\n", minimum, maximum);
             std::cin.clear();

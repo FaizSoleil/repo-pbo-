@@ -6,6 +6,8 @@
 #    Tanggal Buat : 08 Oktober 2026
 #    Deskripsi    : Program operasi matriks
 
+def main():
+    Menu.run_menu()
 
 class Matriks:
 
@@ -152,7 +154,7 @@ class Matriks:
 
 # -------------------------------------------------------------------------------------------------------- #
 
-class Main:
+class Menu:
     @staticmethod
     def print_menu():
         print("\n============= MENU ===============")
@@ -169,7 +171,7 @@ class Main:
 
         # emulasi do-while, dengan kondisi berhenti nya di akhir
         while True:
-            Main.print_menu()
+            Menu.print_menu()
             choice = Helper.input_int(": ")
             match choice:
                 case 1:
@@ -185,7 +187,7 @@ class Main:
                     except ValueError as e:
                         print(f"Error: {e}")
                     else:
-                        Main.demo_matriks(A, B)
+                        Menu.demo_matriks(A, B)
 
                 case 2:
                     # definisi konstanta -> masukkan ke kedua matriks lewat setter
@@ -208,7 +210,7 @@ class Main:
                     except ValueError as e:
                         print(f"Error: {e}")
                     else:
-                        Main.demo_matriks(A, B)
+                        Menu.demo_matriks(A, B)
 
                 case 3:
                     # input m, n -> input matriks A_m x n -> input o, p -> input matriks B_o x p -> masukkan semua variabel yang sudah diinput lewat setter
@@ -218,7 +220,7 @@ class Main:
                     except ValueError as e:
                         print(f"Error: {e}")
                     else:
-                        Main.demo_matriks(A, B)
+                        Menu.demo_matriks(A, B)
 
                 case 4:
                     # definisi matriks A, B -> input matriks A, B lewat input dalam class
@@ -235,7 +237,7 @@ class Main:
                     except ValueError as e:
                         print(f"Error: {e}")
                     else:
-                        Main.demo_matriks(A, B)
+                        Menu.demo_matriks(A, B)
 
                 case 0:
                     print("Terimakasih")
@@ -344,4 +346,4 @@ class Helper:
 
 if __name__=="__main__":
     # test_main()
-    Main.run_menu()
+    main()
