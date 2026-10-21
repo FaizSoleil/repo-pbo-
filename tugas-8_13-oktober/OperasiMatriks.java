@@ -143,8 +143,8 @@ class Matriks {
     }
 
     public void input_matriks(String nama) {
-        baris = Helper.validInputInt("Input baris " + nama + ": ");
-        kolom = Helper.validInputInt("Input kolom " + nama + ": ");
+        baris = Helper.validInputInt("Input baris " + nama + ": ", 0, Integer.MAX_VALUE);
+        kolom = Helper.validInputInt("Input kolom " + nama + ": ",  0, Integer.MAX_VALUE);
 
         for (int i = 0; i < baris; i++) {
             for (int j = 0; j < kolom; j++) {
@@ -168,6 +168,10 @@ class Matriks {
     }
 
     public static Matriks kali_matriks_return(Matriks A, Matriks B) {
+        if (A.get_kolom() != B.get_kolom()) {
+            throw new RuntimeException("Jumlah kolom A harus sama dengan jumlah baris B");
+        }
+
         Matriks hasil = new Matriks(A.get_baris(), B.get_kolom());
 
         for (int i = 0; i < A.get_baris(); i++) {
@@ -224,7 +228,7 @@ class Menu {
 
         while (true) {
             Menu.print_menu();
-            choice = Helper.validInputInt(": ");
+            choice = Helper.validInputInt(": ", 0, 4);
 
             switch (choice) {
                 case 1: {
@@ -294,8 +298,8 @@ class Menu {
 
                 case 4: {
                     Matriks A = new Matriks();
-                    A.set_baris(Helper.validInputInt("Input baris A: "));
-                    A.set_kolom(Helper.validInputInt("Input kolom A: "));
+                    A.set_baris(Helper.validInputInt("Input baris A: ",  0, Integer.MAX_VALUE));
+                    A.set_kolom(Helper.validInputInt("Input kolom A: ",  0, Integer.MAX_VALUE));
 
                     int[][] data_baru = new int[100][100];
 
@@ -310,8 +314,8 @@ class Menu {
                     A.set_data(A.get_baris(), A.get_kolom(), data_baru);
 
                     Matriks B = new Matriks();
-                    B.set_baris(Helper.validInputInt("Input baris B: "));
-                    B.set_kolom(Helper.validInputInt("Input kolom B: "));
+                    B.set_baris(Helper.validInputInt("Input baris B: ",  0, Integer.MAX_VALUE));
+                    B.set_kolom(Helper.validInputInt("Input kolom B: ",  0, Integer.MAX_VALUE));
 
                     for (int i = 0; i < B.get_baris(); i++) {
                         for (int j = 0; j < B.get_kolom(); j++) {
@@ -364,7 +368,7 @@ class Menu {
             System.out.println("Matriks C = A + B:");
             C.print_data();
             System.out.println();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
@@ -374,7 +378,7 @@ class Menu {
             System.out.println("Matriks A = A + B:");
             A.print_data();
             System.out.println();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
@@ -388,7 +392,7 @@ class Menu {
             System.out.println("Matriks D = A * B:");
             D.print_data();
             System.out.println();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }
 
@@ -398,7 +402,7 @@ class Menu {
             System.out.println("Matriks A = A * B:");
             A2.print_data();
             System.out.println();
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
         }
     }

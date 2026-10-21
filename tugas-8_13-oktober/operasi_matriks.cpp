@@ -88,7 +88,7 @@ class Matriks {
         }
     }
 
-    void const print_data() {
+    void print_data() const {
         for (size_t i = 0; i < baris; i++)
         {
             for (size_t j = 0; j < kolom; j++)
@@ -100,8 +100,8 @@ class Matriks {
     }
 
     void input_matriks(const std::string& nama) {
-        baris = Helper::inputInteger("Input baris " + nama + ": ");
-        kolom = Helper::inputInteger("Input kolom " + nama + ": ");
+        baris = Helper::inputInteger("Input baris " + nama + ": ", 0);
+        kolom = Helper::inputInteger("Input kolom " + nama + ": ", 0);
 
         for (size_t i = 0; i < baris; i++)
         {
@@ -124,6 +124,12 @@ class Matriks {
     }
 
     static Matriks kali_matriks_return(const Matriks& A, const Matriks& B) {
+        if (A.get_kolom() != B.get_baris())
+        {
+            throw std::invalid_argument("Jumlah kolom A harus sama dengan jumlah baris B");
+        }
+        
+
         Matriks hasil(A.get_baris(), B.get_kolom());
 
         for (int i = 0; i < A.get_baris(); ++i) {
@@ -179,7 +185,7 @@ public:
         // Emulasi do-while
         while (true) {
             Menu::print_menu();
-            choice = Helper::inputInteger(": ");
+            choice = Helper::inputInteger(": ", 0, 4);
 
             switch (choice) {
                 case 1: {
@@ -205,10 +211,7 @@ public:
 
                         Menu::demo_matriks(A, B);
                     }
-                    catch (const std::invalid_argument& e) {
-                        std::cout << "Error: " << e.what() << '\n';
-                    }
-                    catch (const std::out_of_range& e) {
+                    catch (const std::exception& e) {
                         std::cout << "Error: " << e.what() << '\n';
                     }
 
@@ -246,10 +249,7 @@ public:
 
                         Menu::demo_matriks(A, B);
                     }
-                    catch (const std::invalid_argument& e) {
-                        std::cout << "Error: " << e.what() << '\n';
-                    }
-                    catch (const std::out_of_range& e) {
+                    catch (const std::exception& e) {
                         std::cout << "Error: " << e.what() << '\n';
                     }
 
@@ -264,10 +264,7 @@ public:
 
                         Menu::demo_matriks(A, B);
                     }
-                    catch (const std::invalid_argument& e) {
-                        std::cout << "Error: " << e.what() << '\n';
-                    }
-                    catch (const std::out_of_range& e) {
+                    catch (const std::exception& e) {
                         std::cout << "Error: " << e.what() << '\n';
                     }
 
@@ -278,8 +275,8 @@ public:
                     // Input matriks melalui method class Matriks
                     try {
                         Matriks A;
-                        A.set_baris(Helper::inputInteger("Input baris A: "));
-                        A.set_kolom(Helper::inputInteger("Input kolom A: "));
+                        A.set_baris(Helper::inputInteger("Input baris A: ", 0));
+                        A.set_kolom(Helper::inputInteger("Input kolom A: ", 0));
 
                         Larik2D data_baru;
                         for (size_t i = 0; i < A.get_baris(); i++)
@@ -306,10 +303,7 @@ public:
 
                         Menu::demo_matriks(A, B);
                     }
-                    catch (const std::invalid_argument& e) {
-                        std::cout << "Error: " << e.what() << '\n';
-                    }
-                    catch (const std::out_of_range& e) {
+                    catch (const std::exception& e) {
                         std::cout << "Error: " << e.what() << '\n';
                     }
 
@@ -355,10 +349,7 @@ public:
             C.print_data();
             std::cout << '\n';
         }
-        catch (const std::invalid_argument& e) {
-            std::cout << "Error: " << e.what() << '\n';
-        }
-        catch (const std::out_of_range& e) {
+        catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << '\n';
         }
 
@@ -369,10 +360,7 @@ public:
             A.print_data();
             std::cout << '\n';
         }
-        catch (const std::invalid_argument& e) {
-            std::cout << "Error: " << e.what() << '\n';
-        }
-        catch (const std::out_of_range& e) {
+        catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << '\n';
         }
 
@@ -387,10 +375,7 @@ public:
             D.print_data();
             std::cout << '\n';
         }
-        catch (const std::invalid_argument& e) {
-            std::cout << "Error: " << e.what() << '\n';
-        }
-        catch (const std::out_of_range& e) {
+        catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << '\n';
         }
 
@@ -401,10 +386,7 @@ public:
             A2.print_data();
             std::cout << '\n';
         }
-        catch (const std::invalid_argument& e) {
-            std::cout << "Error: " << e.what() << '\n';
-        }
-        catch (const std::out_of_range& e) {
+        catch (const std::exception& e) {
             std::cout << "Error: " << e.what() << '\n';
         }
     }
