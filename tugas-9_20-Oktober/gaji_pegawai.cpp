@@ -50,7 +50,7 @@ class Helper {
         static string input_string(){
             string hasil;
             cin.clear();
-            cin.ignore();
+            cin.ignore(40000, '\n');
             getline(cin, hasil);
 
             return hasil;
@@ -163,9 +163,9 @@ class Person {
         }
 };
 
-// Penggunaa protected agar fungsi dan atribut class parent hanya bisa digunakan class child dan tidak di akses oleh semua
-// Penggunaan ": protected" pada cpp mirip seperti extends pada java
-class Pegawai : protected Person{
+// Penggunaa public agar fungsi dan atribut class parent bisa digunakan oleh class child
+// Penggunaan ": public" pada cpp mirip seperti extends pada java
+class Pegawai : public Person{
     private:
         string NIP;
         int gol;
@@ -173,18 +173,15 @@ class Pegawai : protected Person{
         Waktu pulang;
 
     public:
-        Pegawai() {
-            this->nama = "";
-            this->alamat = "";
+        Pegawai() : Person() {
             this->NIP = "";
             this->gol = 0;
             this->datang;
             this->pulang;
         }
 
-        Pegawai(string nama, string alamat, string NIP, int gol, Waktu datang, Waktu pulang) {
-            this->nama = nama;
-            this->alamat = alamat;
+        Pegawai(string nama, string alamat, string NIP, int gol, Waktu datang, Waktu pulang)
+            : Person(nama, alamat){
             this->NIP = NIP;
             this->gol = gol;
             this->datang = datang;
@@ -192,24 +189,20 @@ class Pegawai : protected Person{
         }
 
         void set_pegawai(string nama, string alamat, string NIP, int gol, Waktu datang, Waktu pulang) {
-            this->nama = nama;
-            this->alamat = alamat;
+            Person::set_person(nama, alamat);
             this->NIP = NIP;
             this->gol = gol;
             this->datang = datang;
             this->pulang = pulang;
-
         }
 
-        void set_nama(string nama) { this->nama = nama; }
-        void set_alamat(string alamat) { this->alamat = alamat; }
+        // setter dan getter dari class Parent akan otomatis diwarisi oleh class Child
         void set_NIP(string NIP) { this->NIP = NIP; }
         void set_gol(int gol) { this->gol = gol; }
         void set_datang(Waktu datang) { this->datang = datang; }
         void set_pulang(Waktu pulang) { this->pulang = pulang; }
 
         string get_NIP() { return this->NIP; }
-        string get_nama() { return this->nama; }
         int get_gol() { return this->gol; }
         Waktu get_datang() { return this->datang; }
         Waktu get_pulang() { return this->pulang; }
@@ -218,11 +211,10 @@ class Pegawai : protected Person{
             Person::input();
 
             cout << "Masukkan NIP: ";
-            cin >> NIP;
+            this->NIP = Helper::input_string();
 
             cout << "Masukkan Nama: ";
-            cin.ignore();
-            getline(cin, nama);
+            this->nama = Helper::input_string();
 
             cout << "Masukkan Golongan (1-4): ";
             gol = Helper::valid_input_int("Golongan: ", 1, 4);
@@ -415,10 +407,9 @@ class Menu {
                             Pegawai p;
                             string nip, nama;
                             cout << "Masukkan NIP: ";
-                            cin >> nip;
-                            cin.ignore(1000, '\n');
+                            nip = Helper::input_string();
                             cout << "Masukkan Nama: ";
-                            getline(cin, nama);
+                            nama = Helper::input_string();
                             int gol = Helper::valid_input_int("Masukkan Golongan (1-4): ", 1, 4);
 
                             p.set_NIP(nip);
