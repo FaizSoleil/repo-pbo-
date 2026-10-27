@@ -28,16 +28,25 @@ class Helper {
                 
                 if (!temp.empty()) //biar gak throw invalid argument di stoi
                 {
-                    angka = stoi(temp); //kalo kosong invalid argument
-                } else { continue; }
 
-                if (cin.fail() || angka < min || angka > maks) {
-                    cout << "Input harus angka " << min << " - " << maks << "!!\n";
-                    cin.clear();
-                    cin.ignore(400000, '\n');
-                } else {
-                    valid = true;
-                }
+                    try
+                    {
+                        angka = stoi(temp); //kalo kosong invalid argument
+
+                        if(angka < min || angka > maks) {
+                            cout << "Input harus angka " << min << " - " << maks << "!!\n";
+                            continue;
+                        }
+
+                        valid = true;
+                    }
+                    catch(const std::exception& e)
+                    {
+                        cout << "Input harus sebuah integer!!\n";
+                        cin.clear();
+                        cin.ignore(400000, '\n');
+                    }
+                } else { continue; }
             } while (!valid);
 
             return angka;
@@ -165,9 +174,9 @@ class Person {
         string get_alamat(){ return this->alamat; }
 
         void input(){
-            cout << "Masukkan nama: ";
+            cout << "Masukkan Nama: ";
             this->nama = Helper::input_string();
-            cout << "Masukkan alamat: ";
+            cout << "Masukkan Alamat: ";
             this->alamat = Helper::input_string();
         }
 
@@ -225,9 +234,6 @@ class Pegawai : public Person{
 
             cout << "Masukkan NIP: ";
             this->NIP = Helper::input_string();
-
-            cout << "Masukkan Nama: ";
-            this->nama = Helper::input_string();
 
             cout << "Masukkan Alamat: ";
             this->alamat = Helper::input_string();
