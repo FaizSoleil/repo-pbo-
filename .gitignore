@@ -7,6 +7,10 @@
 # pdf
 *.pdf
 
+#temp code runner
+tempCodeRunner.*
+tempCodeRunnerFile.*
+
 ### C++ ###
 # Prerequisites
 *.d
