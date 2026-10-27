@@ -235,9 +235,6 @@ class Pegawai : public Person{
             cout << "Masukkan NIP: ";
             this->NIP = Helper::input_string();
 
-            cout << "Masukkan Alamat: ";
-            this->alamat = Helper::input_string();
-
             cout << "Masukkan Golongan (1-4): ";
             gol = Helper::valid_input_int("Golongan: ", 1, 4);
 
@@ -323,7 +320,7 @@ class ArrayPegawai {
     private:
         static const int MAX = 100;
 
-        Pegawai data [MAX];
+        Pegawai data[MAX];
         int kapasitas;
 
     public:
