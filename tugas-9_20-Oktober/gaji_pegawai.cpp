@@ -63,12 +63,20 @@ class Helper {
         }
 
         static string input_string(string message=""){
-            cout << message;
-
             string hasil;
             // cin.clear();
             // cin.ignore(40000, '\n'); clear dan ignore lebih baik di luar logika input biar gak double input.
-            getline(cin, hasil);
+
+            while (true)
+            {
+                cout << message;
+
+                getline(cin, hasil);
+
+                if(!hasil.empty()) break;
+
+                cout << "Input tidak boleh kosong!!";
+            }
 
             return hasil;
         }
@@ -174,10 +182,8 @@ class Person {
         string get_alamat(){ return this->alamat; }
 
         void input(){
-            cout << "Masukkan Nama: ";
-            this->nama = Helper::input_string();
-            cout << "Masukkan Alamat: ";
-            this->alamat = Helper::input_string();
+            this->nama = Helper::input_string("Masukkan Nama: ");
+            this->alamat = Helper::input_string("Masukkan Alamat: ");
         }
 
         void output(){
@@ -233,10 +239,9 @@ class Pegawai : public Person{
             Person::input();
 
             cout << "Masukkan NIP: ";
-            this->NIP = Helper::input_string();
+            this->NIP = Helper::input_string("Masukkan NIP: ");
 
-            cout << "Masukkan Golongan (1-4): ";
-            gol = Helper::valid_input_int("Golongan: ", 1, 4);
+            gol = Helper::valid_input_int("Masukkan Golongan (1-4): ", 1, 4);
 
             cout << "\n--- Input Waktu Datang ---" << endl;
             datang.input_waktu();
