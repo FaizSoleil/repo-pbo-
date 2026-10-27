@@ -152,8 +152,6 @@ class Pegawai extends Person {
         this.pulang = pulang;
     }
 
-    // public void setNama(String nama) { this.setNama(nama); }
-    // public void setAlamat(String alamat) { this.setAlamat(alamat);}
     public void setNIP(String NIP) { this.NIP = NIP; }
     public void setGol(int gol) { this.gol = gol; }
     public void setDatang(Waktu datang) { this.datang = datang; }
@@ -210,4 +208,180 @@ class Pegawai extends Person {
         }
         return bayaran;
     }
+
+    int getUangLemburTotal() {
+        return getWaktuLembur().getJam() * getBiayaLembur();
+    }
+
+    int getTotalGaji() {
+        return getGajiHarian() + getUangLemburTotal();
+    }
+
+    String getStatus() {
+        // if (getLamaKerja().getJam() < 8)
+        //     return "peringatan";
+        // else
+        //     return "ok";
+
+        return (getLamaKerja().getJam() < 8) ? "peringatan" : "ok";
+    }
+
+    public void printPegawai(int no) {
+        System.out.print(String.format("%-4s%-6s%-16s%-8d", no + ".", getNIP(), getNama(), getGol()));
+ 
+        getDatang().printWaktu();
+        System.out.print("   ");
+        getPulang().printWaktu();
+        System.out.print("   ");
+        getLamaKerja().printWaktu();
+        System.out.print("   ");
+        getWaktuLembur().printWaktu();
+        System.out.print("     ");
+ 
+        System.out.println(String.format("%-14s%-13s%-14s%-10s",
+                Helper.formatRibuan(getGajiHarian()),
+                Helper.formatRibuan(getUangLemburTotal()),
+                Helper.formatRibuan(getTotalGaji()),
+                getStatus()));
+    }
 }
+
+class ArrayPegawai {
+    String GARIS = "-".repeat(132);
+
+    private static final int MAX = 100;
+    private Pegawai[] data = new Pegawai[MAX];
+    private int jumlah = 0;
+
+    public ArrayPegawai() { }
+
+    public void tambahPegawai(Pegawai pegawai) {
+        if (jumlah < MAX) {
+            data[jumlah] = pegawai;
+            jumlah++;
+        }
+    }
+
+    public Pegawai getData(int index) { return data[index]; }
+    public int getJumlah() { return jumlah; }
+
+    public void inputData(int n) {
+        jumlah = 0;
+        for (int i = 0; i < n; i++) {
+            System.out.println("\n--- Data Pegawai ke-" + (i + 1) + " ---");
+            Pegawai p = new Pegawai();
+            p.inputPegawai();
+            tambahPegawai(p);
+        }
+    }
+
+    public void printAllPegawai() {
+        System.out.println("\n\t\t\t\tDaftar Gaji Harian PT Informatika");
+        System.out.println(GARIS);
+        System.out.println(String.format("%-4s%-6s%-16s%-8s%-11s%-11s%-11s%-13s%-14s%-13s%-14s%-10s",
+                "No", "NIP", "Nama", "Gol", "Datang", "Pulang", "Lama", "Jam Lembur",
+                "Gaji Harian", "Lembur", "Total", "Status"));
+        System.out.println(GARIS);
+
+        for (int i = 0; i < jumlah; i++) {
+            data[i].printPegawai(i + 1);
+        }
+
+        System.out.println(GARIS);
+    }
+}
+
+class Menu {
+    public static void displayMenu() {
+        System.out.println("\n============= MENU ===============");
+        System.out.println("1. CONSTRUCTOR KONSTANTA");
+        System.out.println("2. SETTER KONSTANTA");
+        System.out.println("3. SETTER INPUT LUAR");
+        System.out.println("4. INPUT DALAM");
+        System.out.println("0. KELUAR");
+        System.out.println("==================================");
+    }
+
+    public static void menu() {
+        int pilih = -1;
+        do {
+            displayMenu();
+            pilih = Helper.validInputInt("Menu: ", 0, 4);
+            switch (pilih) {
+                case 1: {
+                    int n = Helper.validInputInt("Masukkan jumlah pegawai: ", 1, 100);
+                    ArrayPegawai arrayPegawai = new ArrayPegawai();
+                    for (int i = 0; i < n; i++) {
+                        Pegawai p = new Pegawai("Pegawai " + (i + 1), "jalan Soetta" + (i + 1),
+                                "00" + (i + 1), (i % 4) + 1, new Waktu(8, 0, 0), new Waktu(17, 15, 10));
+                        arrayPegawai.tambahPegawai(p);
+                    }
+                    arrayPegawai.printAllPegawai();
+                    break;
+                }
+                case 2: {
+                    int n = Helper.validInputInt("Masukkan jumlah pegawai: ", 1, 100);
+                    ArrayPegawai arrayPegawai = new ArrayPegawai();
+                    for (int i = 0; i < n; i++) {
+                        Pegawai p = new Pegawai();
+                        p.setNIP("00" + (i + 1));
+                        p.setNama("Pegawai " + (i + 1));
+                        p.setGol((i % 4) + 1);
+                        p.setDatang(new Waktu(8, 0, 0));
+                        p.setPulang(new Waktu(17, 15, 10));
+                        arrayPegawai.tambahPegawai(p);
+                    }
+                    arrayPegawai.printAllPegawai();
+                    break;
+                }
+                case 3: {
+                    int n = Helper.validInputInt("Masukkan jumlah pegawai: ", 1, 100);
+                    ArrayPegawai arrayPegawai = new ArrayPegawai();
+                    for (int i = 0; i < n; i++) {
+                        System.out.println("\n--- Data Pegawai ke-" + (i + 1) + " ---");
+                        Pegawai p = new Pegawai();
+                        String nip = Helper.inputString("Masukkan NIP: ");
+                        String nama = Helper.inputString("Masukkan Nama: ");
+                        int gol = Helper.validInputInt("Masukkan Golongan (1-4): ", 1, 4);
+
+                        p.setNIP(nip);
+                        p.setNama(nama);
+                        p.setGol(gol);
+
+                        System.out.println("\n--- Input Waktu Datang ---\n");
+                        Waktu d = new Waktu();
+                        d.inputWaktu();
+                        p.setDatang(d);
+
+                        System.out.println("\n--- Input Waktu Pulang ---\n");
+                        Waktu pl = new Waktu();
+                        pl.inputWaktu();
+                        p.setPulang(pl);
+
+                        arrayPegawai.tambahPegawai(p);
+                    }
+                    arrayPegawai.printAllPegawai();
+                    break;
+                }
+                case 4: {
+                    int n = Helper.validInputInt("Masukkan jumlah pegawai: ", 1, 100);
+                    ArrayPegawai arrayPegawai = new ArrayPegawai();
+                    arrayPegawai.inputData(n);
+                    arrayPegawai.printAllPegawai();
+                    break;
+                }
+                case 0: {
+                    System.out.println("Terima kasih...");
+                    break;
+                }
+            }
+        } while (pilih != 0);
+    }
+}
+
+public class GajiPegawai {
+    public static void main(String[] args) {
+        Menu.menu();
+    }
+}
+
