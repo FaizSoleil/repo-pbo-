@@ -22,8 +22,14 @@ class Helper {
             bool valid = false;
 
             do {
+                string temp;
                 cout << pesan;
-                cin >> angka;
+                getline(cin, temp); //biar konsumsi newline konsisten
+                
+                if (!temp.empty()) //biar gak throw invalid argument di stoi
+                {
+                    angka = stoi(temp); //kalo kosong invalid argument
+                } else { continue; }
 
                 if (cin.fail() || angka < min || angka > maks) {
                     cout << "Input harus angka " << min << " - " << maks << "!!\n";
@@ -47,13 +53,20 @@ class Helper {
             return s;
         }
 
-        static string input_string(){
+        static string input_string(string message=""){
+            cout << message;
+
             string hasil;
-            cin.clear();
-            cin.ignore(40000, '\n');
+            // cin.clear();
+            // cin.ignore(40000, '\n'); clear dan ignore lebih baik di luar logika input biar gak double input.
             getline(cin, hasil);
 
             return hasil;
+        }
+
+        static void clear_buffer() {
+            cin.clear();
+            cin.ignore(40000, '\n');
         }
 };
 
@@ -216,6 +229,9 @@ class Pegawai : public Person{
             cout << "Masukkan Nama: ";
             this->nama = Helper::input_string();
 
+            cout << "Masukkan Alamat: ";
+            this->alamat = Helper::input_string();
+
             cout << "Masukkan Golongan (1-4): ";
             gol = Helper::valid_input_int("Golongan: ", 1, 4);
 
@@ -279,13 +295,13 @@ class Pegawai : public Person{
         }
 
         void print_pegawai(int no) {
-            cout << left << setw(4) << (to_string(no) + ".") << setw(6) << get_NIP() << setw(16) << get_nama() << setw(8) << get_gol();
+            cout << left << setw(4) << (to_string(no) + ".") << setw(6) << get_NIP() << setw(16) << get_nama() << setw(20) << get_alamat() << setw(8) << get_gol();
             get_datang().print_waktu();
             cout << "   ";
             get_pulang().print_waktu();
             cout << "   ";
             get_lama_kerja().print_waktu();
-            cout << "   ";
+            cout << "     ";
             get_waktu_lembur().print_waktu();
             cout << "     ";
             cout << left << setw(14) << Helper::format_ribuan(get_gaji_harian())
@@ -296,7 +312,7 @@ class Pegawai : public Person{
 };
 
 class ArrayPegawai {
-    string GARIS = string(132, '-');
+    string GARIS = string(152, '-');
 
     private:
         static const int MAX = 100;
@@ -343,7 +359,7 @@ class ArrayPegawai {
         void print_all_pegawai() {
             cout << "\n\t\t\t\tDaftar Gaji Harian PT Informatika\n";
             cout << GARIS << endl;
-            cout << left << setw(4) << "No" << setw(6) << "NIP" << setw(16) << "Nama" << setw(8) << "Gol"
+            cout << left << setw(4) << "No" << setw(6) << "NIP" << setw(16) << "Nama" << setw(20) << "Alamat" << setw(8) << "Gol"
                 << setw(11) << "Datang" << setw(11) << "Pulang" << setw(13) << "Lama" << setw(13) << "Jam Lembur"
                 << setw(14) << "Gaji Harian" << setw(13) << "Lembur" << setw(14) << "Total" << setw(10) << "Status" << endl;
             cout << GARIS << endl;
@@ -391,6 +407,7 @@ class Menu {
                             Pegawai p;
                             p.set_NIP("00" + to_string(i + 1));
                             p.set_nama("Pegawai " + to_string(i + 1));
+                            p.set_alamat("jalan soetta" + to_string(i+1));
                             p.set_gol((i % 4) + 1);
                             p.set_datang(Waktu(8, 0, 0));
                             p.set_pulang(Waktu(17, 15, 10));
@@ -405,15 +422,18 @@ class Menu {
                         for (int i = 0; i < n; i++) {
                             cout << "\n--- Data Pegawai ke-" << i + 1 << " ---" << endl;
                             Pegawai p;
-                            string nip, nama;
+                            string nip, nama, alamat;
                             cout << "Masukkan NIP: ";
                             nip = Helper::input_string();
                             cout << "Masukkan Nama: ";
                             nama = Helper::input_string();
+                            cout << "Masukkan Alamat: ";
+                            alamat = Helper::input_string();
                             int gol = Helper::valid_input_int("Masukkan Golongan (1-4): ", 1, 4);
 
                             p.set_NIP(nip);
                             p.set_nama(nama);
+                            p.set_alamat(alamat);
                             p.set_gol(gol);
 
                             cout << "\n--- Input Waktu Datang ---" << endl;
