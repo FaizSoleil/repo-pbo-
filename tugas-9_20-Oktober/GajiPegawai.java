@@ -227,7 +227,7 @@ class Pegawai extends Person {
     }
 
     public void printPegawai(int no) {
-        System.out.print(String.format("%-4s%-6s%-16s%-8d", no + ".", getNIP(), getNama(), getGol()));
+        System.out.print(String.format("%-4s%-6s%-16s%-20s%-8d", no + ".", getNIP(), getNama(), getAlamat(), getGol()));
  
         getDatang().printWaktu();
         System.out.print("   ");
@@ -247,7 +247,7 @@ class Pegawai extends Person {
 }
 
 class ArrayPegawai {
-    String GARIS = "-".repeat(132);
+    String GARIS = "-".repeat(152);
 
     private static final int MAX = 100;
     private Pegawai[] data = new Pegawai[MAX];
@@ -278,8 +278,8 @@ class ArrayPegawai {
     public void printAllPegawai() {
         System.out.println("\n\t\t\t\tDaftar Gaji Harian PT Informatika");
         System.out.println(GARIS);
-        System.out.println(String.format("%-4s%-6s%-16s%-8s%-11s%-11s%-11s%-13s%-14s%-13s%-14s%-10s",
-                "No", "NIP", "Nama", "Gol", "Datang", "Pulang", "Lama", "Jam Lembur",
+        System.out.println(String.format("%-4s%-6s%-16s%-20s%-8s%-11s%-11s%-11s%-13s%-14s%-13s%-14s%-10s",
+                "No", "NIP", "Nama", "Alamat", "Gol", "Datang", "Pulang", "Lama", "Jam Lembur",
                 "Gaji Harian", "Lembur", "Total", "Status"));
         System.out.println(GARIS);
 
@@ -326,6 +326,7 @@ class Menu {
                         Pegawai p = new Pegawai();
                         p.setNIP("00" + (i + 1));
                         p.setNama("Pegawai " + (i + 1));
+                        p.setAlamat("jalan Soetta" + (i + 1));
                         p.setGol((i % 4) + 1);
                         p.setDatang(new Waktu(8, 0, 0));
                         p.setPulang(new Waktu(17, 15, 10));
@@ -342,10 +343,12 @@ class Menu {
                         Pegawai p = new Pegawai();
                         String nip = Helper.inputString("Masukkan NIP: ");
                         String nama = Helper.inputString("Masukkan Nama: ");
+                        String alamat = Helper.inputString("Masukkan Alamat: ");
                         int gol = Helper.validInputInt("Masukkan Golongan (1-4): ", 1, 4);
 
                         p.setNIP(nip);
                         p.setNama(nama);
+                        p.setAlamat(alamat);
                         p.setGol(gol);
 
                         System.out.println("\n--- Input Waktu Datang ---\n");
