@@ -8,4 +8,47 @@
  *    Deskripsi    : Program untuk mengolah array data pegawai dan implementasi inheritence
  ***********************************************************/
 
- 
+#include <iostream>
+
+using namespace std;
+
+class Helper {
+
+};
+
+class Kendaraan {
+
+};
+
+class Mobil : public Kendaraan {
+
+};
+
+class Motor : public Kendaraan {
+
+};
+
+class Truk : public Kendaraan {
+
+};
+
+class Orang {
+
+};
+
+class Pegawai : public Orang {
+
+};
+
+class ParkirKendaraan {
+
+};
+
+class Menu {
+
+};
+
+int main() {
+
+    return 0;
+}
