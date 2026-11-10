@@ -4,8 +4,8 @@
  *      - Muhammad Athar Alfarisi (140810250005)
  *      - Muhammad Faiz Hariy Nugroho (140810250029)
  *      - Gibraldi Zilal Fachry (140810250038)
- *    Tanggal Buat : 21 Oktober 2026
- *    Deskripsi    : Program untuk mengolah array data pegawai dan implementasi inheritence
+ *    Tanggal Buat : 10 November 2026
+ *    Deskripsi    : Program untuk mengolah array parkir menggunakan inheritance dan polimorfisme
  ***********************************************************/
 
 #include <iostream>
