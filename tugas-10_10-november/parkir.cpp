@@ -428,8 +428,8 @@ public:
             return "umum";
         }
 
-        // The polymorphic part: every subclass must implement these
-        virtual int hitung_biaya() = 0;      // Java: abstract method
+        // virtual xxx fungsi() = 0 menandakan abstract function()
+        virtual int hitung_biaya() = 0;
         virtual std::string get_jenis() = 0;
         virtual std::string get_detail() = 0;
 
