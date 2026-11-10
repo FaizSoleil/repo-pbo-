@@ -15,74 +15,74 @@
 
 class Helper {
 public:
-        static int valid_input_int(std::string pesan, int min, int maks) {
-            int angka = 0;
-            bool valid = false;
+    static int valid_input_int(std::string pesan, int min, int maks) {
+        int angka = 0;
+        bool valid = false;
 
-            do {
-                std::string temp;
-                std::cout << pesan;
-                std::getline(std::cin, temp); //biar konsumsi newline konsisten
+        do {
+            std::string temp;
+            std::cout << pesan;
+            std::getline(std::cin, temp); //biar konsumsi newline konsisten
                 
-                if (!temp.empty()) //biar gak throw invalid argument di stoi
-                {
-
-                    try
-                    {
-                        angka = stoi(temp); //kalo kosong invalid argument
-
-                        if(angka < min || angka > maks) {
-                            std::cout << "Input harus angka " << min << " - " << maks << "!!\n";
-                            continue;
-                        }
-
-                        valid = true;
-                    }
-                    catch(const std::exception& e)
-                    {
-                        std::cout << "Input harus sebuah integer!!\n";
-                        std::cin.clear();
-                        std::cin.ignore(400000, '\n');
-                    }
-                } else { continue; }
-            } while (!valid);
-
-            return angka;
-        }
-
-        static std::string format_ribuan(long long n) {
-            std::string s = std::to_string(n);
-            int insert = s.length() - 3;
-            while (insert > 0) {
-                s.insert(insert, ".");
-                insert -= 3;
-            }
-            return s;
-        }
-
-        static std::string input_string(std::string message=""){
-            std::string hasil;
-            // std::cin.clear();
-            // std::cin.ignore(40000, '\n'); clear dan ignore lebih baik di luar logika input biar gak double input.
-
-            while (true)
+            if (!temp.empty()) //biar gak throw invalid argument di stoi
             {
-                std::cout << message;
 
-                std::getline(std::cin, hasil);
+                try
+                {
+                    angka = stoi(temp); //kalo kosong invalid argument
 
-                if(!hasil.empty()) break;
+                    if(angka < min || angka > maks) {
+                        std::cout << "Input harus angka " << min << " - " << maks << "!!\n";
+                        continue;
+                    }
 
-                std::cout << "Input tidak boleh kosong!!";
-            }
+                    valid = true;
+                }
+                catch(const std::exception& e)
+                {
+                    std::cout << "Input harus sebuah integer!!\n";
+                    std::cin.clear();
+                    std::cin.ignore(400000, '\n');
+                }
+            } else { continue; }
+        } while (!valid);
 
-            return hasil;
+        return angka;
+    }
+
+    static std::string format_ribuan(long long n) {
+        std::string s = std::to_string(n);
+        int insert = s.length() - 3;
+        while (insert > 0) {
+            s.insert(insert, ".");
+            insert -= 3;
+        }
+        return s;
+    }
+
+    static std::string input_string(std::string message=""){
+        std::string hasil;
+        // std::cin.clear();
+        // std::cin.ignore(40000, '\n'); clear dan ignore lebih baik di luar logika input biar gak double input.
+
+        while (true)
+        {
+            std::cout << message;
+
+            std::getline(std::cin, hasil);
+
+            if(!hasil.empty()) break;
+
+            std::cout << "Input tidak boleh kosong!!";
         }
 
-        static void clear_buffer() {
-            std::cin.clear();
-            std::cin.ignore(40000, '\n');
-        }
+        return hasil;
+    }
+
+    static void clear_buffer() {
+        std::cin.clear();
+        std::cin.ignore(40000, '\n');
+    }
 };
 
 class Waktu {
@@ -193,42 +193,42 @@ public:
 // Penggunaan ": public" pada cpp mirip seperti extends pada java
 class Pegawai : public Person{
 private:
-    std::string NIP;
+    std::string nip;
     int gol;
     Waktu datang;
     Waktu pulang;
 
 public:
     Pegawai() : Person() {
-        this->NIP = "";
+        this->nip = "";
         this->gol = 0;
         this->datang;
         this->pulang;
     }
 
-    Pegawai(std::string nama, std::string alamat, std::string NIP, int gol, Waktu datang, Waktu pulang)
+    Pegawai(std::string nama, std::string alamat, std::string nip, int gol, Waktu datang, Waktu pulang)
         : Person(nama, alamat){
-        this->NIP = NIP;
+        this->nip = nip;
         this->gol = gol;
         this->datang = datang;
         this->pulang = pulang;
     }
 
-    void set_pegawai(std::string nama, std::string alamat, std::string NIP, int gol, Waktu datang, Waktu pulang) {
+    void set_pegawai(std::string nama, std::string alamat, std::string nip, int gol, Waktu datang, Waktu pulang) {
         Person::set_person(nama, alamat);
-        this->NIP = NIP;
+        this->nip = nip;
         this->gol = gol;
         this->datang = datang;
         this->pulang = pulang;
     }
 
     // setter dan getter dari class Parent akan otomatis diwarisi oleh class Child
-    void set_NIP(std::string NIP) { this->NIP = NIP; }
+    void set_nip(std::string nip) { this->nip = nip; }
     void set_gol(int gol) { this->gol = gol; }
     void set_datang(Waktu datang) { this->datang = datang; }
     void set_pulang(Waktu pulang) { this->pulang = pulang; }
 
-    std::string get_NIP() { return this->NIP; }
+    std::string get_nip() { return this->nip; }
     int get_gol() { return this->gol; }
     Waktu get_datang() { return this->datang; }
     Waktu get_pulang() { return this->pulang; }
@@ -237,7 +237,7 @@ public:
         Person::input();
 
         std::cout << "Masukkan NIP: ";
-        this->NIP = Helper::input_string("Masukkan NIP: ");
+        this->nip = Helper::input_string("Masukkan NIP: ");
 
         gol = Helper::valid_input_int("Masukkan Golongan (1-4): ", 1, 4);
 
@@ -301,7 +301,7 @@ public:
     }
 
     void print_pegawai(int no) {
-        std::cout << std::left << std::setw(4) << (std::to_string(no) + ".") << std::setw(6) << get_NIP() << std::setw(16) << get_nama() << std::setw(20) << get_alamat() << std::setw(8) << get_gol();
+        std::cout << std::left << std::setw(4) << (std::to_string(no) + ".") << std::setw(6) << get_nip() << std::setw(16) << get_nama() << std::setw(20) << get_alamat() << std::setw(8) << get_gol();
         get_datang().print_waktu();
         std::cout << "   ";
         get_pulang().print_waktu();
@@ -318,7 +318,8 @@ public:
 };
 
 class Kendaraan {
-
+protected:
+    
 };
 
 class Mobil : public Kendaraan {
