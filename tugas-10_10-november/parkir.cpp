@@ -663,14 +663,17 @@ public:
                         case 1: {
                             int pintu = Helper::valid_input_int("Jumlah pintu: ", 2, 6);
                             k = new Mobil(plat, pemilik, datang, pulang, pintu);
+                            break;
                         }
                         case 2: {
                             int roda = Helper::valid_input_int("Jumlah roda: ", 4, 18);
                             k = new Truk(plat, pemilik, datang, pulang, roda);
+                            break;
                         }
                         case 3: {
                             int tak = Helper::valid_input_int("Jumlah tak (2/4): ", 2, 4);
                             k = new Motor(plat, pemilik, datang, pulang, tak);
+                            break;
                         }
                     }
 
