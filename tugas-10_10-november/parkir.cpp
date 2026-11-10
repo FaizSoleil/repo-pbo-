@@ -151,18 +151,21 @@ public:
     }
 };
 
-// Biar nanti kelas anaknya bisa manggil
 class Person {
-protected:
-    std::string nama;
-    std::string alamat;
-
 public:
     Person(){
         this->nama = "";
         this->alamat = "";
     }
+    virtual ~Person() {}
+    virtual bool is_pegawai() { return false; }
 
+protected:
+    std::string nama;
+    std::string alamat;
+    std::string nik;
+
+public:
     Person(std::string nama, std::string alamat){
         this->nama = nama;
         this->alamat = alamat;
@@ -213,6 +216,8 @@ public:
         this->datang = datang;
         this->pulang = pulang;
     }
+
+    bool is_pegawai() override { return true; }
 
     void set_pegawai(std::string nama, std::string alamat, std::string nip, int gol, Waktu datang, Waktu pulang) {
         Person::set_person(nama, alamat);
@@ -317,32 +322,247 @@ public:
     }
 };
 
+class ArrayPegawai {
+    std::string GARIS = std::string(152, '-');
+
+    private:
+        static const int MAX = 100;
+
+        Pegawai data[MAX];
+        int kapasitas;
+
+    public:
+        ArrayPegawai() {
+            this->kapasitas = 0;
+            this->data[MAX];
+        }
+
+        ArrayPegawai(int kapasitas) {
+            this->kapasitas = kapasitas;
+            this->data[this->kapasitas];
+        }
+
+        void tambah_pegawai(Pegawai pegawai) {
+            if (this->kapasitas < this->MAX) {
+                this->data[this->kapasitas] = pegawai;
+                this->kapasitas++;
+            }
+        }
+
+        Pegawai get_data() {
+            return this->data[kapasitas];
+        }
+
+        int get_jumlah() {
+            return this->kapasitas;
+        }
+
+        void input_data(int n) {
+            this->kapasitas = 0;
+            for (int i = 0; i < n; i++) {
+                std::cout << "\n--- Data Pegawai ke-" << i + 1 << " ---" << '\n';
+                Pegawai p;
+                p.input_pegawai();
+                tambah_pegawai(p);
+            }
+        }
+
+        void print_all_pegawai() {
+            std::cout << "\n\t\t\t\tDaftar Gaji Harian PT Informatika\n";
+            std::cout << GARIS << '\n';
+            std::cout << std::left << std::setw(4) << "No" << std::setw(6) << "NIP" << std::setw(16) << "Nama" << std::setw(20) << "Alamat" << std::setw(8) << "Gol"
+                << std::setw(11) << "Datang" << std::setw(11) << "Pulang" << std::setw(13) << "Lama" << std::setw(13) << "Jam Lembur"
+                << std::setw(14) << "Gaji Harian" << std::setw(13) << "Lembur" << std::setw(14) << "Total" << std::setw(10) << "Status" << '\n';
+            std::cout << GARIS << '\n';
+
+            for (int i = 0; i < this->kapasitas; i++) {
+                data[i].print_pegawai(i + 1);
+            }
+
+            std::cout << GARIS << '\n';
+        }
+};
+
 class Kendaraan {
 protected:
-    
+    int nomor_polisi;
+    Person* pemilik;    // nullptr = anonim maka tidak dimiliki sama Kendaraan.
+    Waktu datang;   // see note 1 below
+    Waktu pulang;
+
+    bool adalah_pegawai() {
+        return pemilik != nullptr && pemilik->is_pegawai();
+    }
+
+    // minimum 1 jam, kalau kurang bulatkan ke atas
+    int get_jam_tagihan() {
+        Waktu lama = datang.jarak_waktu(pulang);
+        int detik = lama.get_jam() * 3600 + lama.get_menit() * 60 + lama.get_detik();
+        int jam = (detik + 3599) / 3600;
+        if (jam < 1) jam = 1;
+        return jam;
+    }
+
+    int biaya_per_jam(int tarif) { return get_jam_tagihan() * tarif; }
+
+public:
+        Kendaraan(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang) {
+            this->nomor_polisi = nomor_polisi;
+            this->pemilik = pemilik;
+            this->datang = datang;
+            this->pulang = pulang;
+        }
+        virtual ~Kendaraan() {}
+
+        int get_nomor_polisi() { return nomor_polisi; }
+        Person* get_pemilik() { return pemilik; }
+        void ganti_pemilik(Person* pemilik_baru) { this->pemilik = pemilik_baru; }
+
+        std::string get_nama_pemilik() {
+            return pemilik == nullptr ? "null" : pemilik->get_nama();
+        }
+
+        std::string get_status() {
+            if (adalah_pegawai()) return "pegawai";
+            if (pemilik == nullptr) return "umum (anonim)";
+            return "umum";
+        }
+
+        // The polymorphic part: every subclass must implement these
+        virtual int hitung_biaya() = 0;      // Java: abstract method
+        virtual std::string get_jenis() = 0;
+        virtual std::string get_detail() = 0;
+
+        void print_kendaraan(int no) {
+            std::cout << std::left << std::setw(4) << (std::to_string(no) + ".")
+                << std::setw(8) << get_jenis()
+                << std::setw(9) << get_nomor_polisi()
+                << std::setw(16) << get_nama_pemilik()
+                << std::setw(16) << get_status()
+                << std::setw(12) << get_detail();
+            datang.print_waktu();
+            std::cout << "   ";
+            pulang.print_waktu();
+            std::cout << "   ";
+            datang.jarak_waktu(pulang).print_waktu();
+            std::cout << "   " << std::left << std::setw(12) << Helper::format_ribuan(hitung_biaya()) << '\n';
+        }
 };
 
 class Mobil : public Kendaraan {
+    private:
+        int jumlah_pintu;
+    public:
+        Mobil(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang, int jumlah_pintu)
+            : Kendaraan(nomor_polisi, pemilik, datang, pulang) {
+            this->jumlah_pintu = jumlah_pintu;
+        }
+        int get_jumlah_pintu() { return jumlah_pintu; }
+        void set_jumlah_pintu(int j) { jumlah_pintu = j; }
 
-};
-
-class Motor : public Kendaraan {
-
+        int hitung_biaya() override {
+            if (adalah_pegawai()) return 6000;  // per hari
+            return biaya_per_jam(3000); // per jam
+        }
+        std::string get_jenis() override { return "Mobil"; }
+        std::string get_detail() override { return "Pintu: " + std::to_string(jumlah_pintu); }
 };
 
 class Truk : public Kendaraan {
+    private:
+        int jumlah_roda;
+    public:
+        Truk(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang, int jumlah_roda)
+            : Kendaraan(nomor_polisi, pemilik, datang, pulang) {
+            this->jumlah_roda = jumlah_roda;
+        }
+        int get_jumlah_roda() { return jumlah_roda; }
+        void set_jumlah_roda(int j) { jumlah_roda = j; }
 
+        int hitung_biaya() override {
+            return biaya_per_jam(5000); // employees bayar biaya yang person juga
+        }
+        std::string get_jenis() override { return "Truk"; }
+        std::string get_detail() override { return "Roda: " + std::to_string(jumlah_roda); }
 };
 
-class ParkirKendaraan {
+class Motor : public Kendaraan {
+    private:
+        int jumlah_tak;
+    public:
+        Motor(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang, int jumlah_tak)
+            : Kendaraan(nomor_polisi, pemilik, datang, pulang) {
+            this->jumlah_tak = jumlah_tak;
+        }
+        int get_jumlah_tak() { return jumlah_tak; }
+        void set_jumlah_tak(int j) { jumlah_tak = j; }
 
+        int hitung_biaya() override {
+            if (adalah_pegawai()) return 3000;  // per hari
+            return biaya_per_jam(2000); // per jam
+        }
+        std::string get_jenis() override { return "Motor"; }
+        std::string get_detail() override { return "Tak: " + std::to_string(jumlah_tak); }
 };
 
-class Menu {
+class ArrayParkir {
+    private:
+        std::string GARIS = std::string(110, '-');
+        std::vector<Kendaraan*> data;
 
+    public:
+        ArrayParkir() {}
+
+        // Destructor agar tidak ada memory leak
+        ~ArrayParkir() {
+            for (Kendaraan* k : data) delete k;
+        }
+        ArrayParkir(const ArrayParkir&) = delete; //copy constructor-nya disable
+        ArrayParkir& operator=(const ArrayParkir&) = delete; //copy assignment operator-nya disable
+        
+        //maksudnya dijelasin di bawah
+
+        void tambah_kendaraan(Kendaraan* k) { data.push_back(k); }
+        int get_jumlah() { return data.size(); }
+
+        void print_all_parkir() {
+            std::cout << "\n\t\t\t\tLaporan Parkir Gedung\n";
+            std::cout << GARIS << '\n';
+            std::cout << std::left << std::setw(4) << "No" << std::setw(8) << "Jenis" << std::setw(9) << "No.Pol"
+                << std::setw(16) << "Pemilik" << std::setw(16) << "Status" << std::setw(12) << "Detail"
+                << std::setw(11) << "Datang" << std::setw(11) << "Pulang" << std::setw(11) << "Lama"
+                << std::setw(12) << "Biaya" << '\n';
+            std::cout << GARIS << '\n';
+
+            for (int i = 0; i < (int)data.size(); i++) {
+                data[i]->print_kendaraan(i + 1);    // satu loop, panggil secara polimorfisme
+            }
+            std::cout << GARIS << '\n';
+        }
 };
+
+// disable ini (copy constructor)
+// ArrayParkir a;
+// ArrayParkir b(a); 
+// ArrayParkir c = a;
+
+//dan disable ini (copy assignment operator)
+// ArrayParkir a;
+// ArrayParkir b;
+// b = a;
 
 int main() {
+    Person umum = Person("Budi", "Jl. Merdeka");
+    Pegawai siti =  Pegawai("Siti", "Jl. Soetta", "001", 2, Waktu(8,0,0), Waktu(17,0,0));
 
+    ArrayParkir parkir;
+    parkir.tambah_kendaraan(new Mobil(1234, &siti,   Waktu(8,0,0),  Waktu(17,30,0), 4)); // pegawai: 6.000
+    parkir.tambah_kendaraan(new Motor(5678, &siti,   Waktu(8,0,0),  Waktu(16,0,0),  4)); // pegawai: 3.000
+    parkir.tambah_kendaraan(new Truk (9012, &siti,   Waktu(7,0,0),  Waktu(10,10,0), 6)); // biaya publik: 4h = 20.000
+    parkir.tambah_kendaraan(new Mobil(3456, &umum,   Waktu(9,0,0),  Waktu(11,0,0),  4)); // 2h = 6.000
+    parkir.tambah_kendaraan(new Motor(7890, nullptr, Waktu(10,0,0), Waktu(10,20,0), 4)); // 20 min -> 1h = 2.000
+    parkir.tambah_kendaraan(new Mobil(1111, nullptr, Waktu(22,0,0), Waktu(2,30,0),  4)); // melewati tengah malam, 5h = 15.000
+
+    parkir.print_all_parkir();
     return 0;
 }
