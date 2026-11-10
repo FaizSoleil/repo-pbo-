@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <cmath>
 
 class Helper {
 public:
@@ -163,7 +164,6 @@ public:
 protected:
     std::string nama;
     std::string alamat;
-    std::string nik;
 
 public:
     Person(std::string nama, std::string alamat){
@@ -558,116 +558,151 @@ public:
 
 class MenuParkir {
 private:
-        static void display_menu() {
-            std::cout << "\n========== MENU PARKIR ==========" << '\n'
-                << "1. Tambah kendaraan" << '\n'
-                << "2. Tampilkan laporan parkir" << '\n'
-                << "3. Ganti pemilik kendaraan" << '\n'
-                << "4. Isi data contoh" << '\n'
-                << "0. Keluar" << '\n'
-                << "=================================\n";
-        }
+    static void display_menu() {
+        std::cout << "\n========== MENU PARKIR ==========" << '\n'
+            << "1. Tambah kendaraan (Input dalam)" << '\n'
+            << "2. Tambah kendaraan (Input luar)" << '\n'
+            << "3. Tampilkan laporan parkir" << '\n'
+            << "4. Ganti pemilik kendaraan" << '\n'
+            << "5. Isi data contoh" << '\n'
+            << "0. Keluar" << '\n'
+            << "=================================\n";
+    }
 
-        // Pemiliknya hard-coded
-        static Person* pilih_pemilik(std::vector<Person*>& list_orang) {
-            std::cout << "\n--- Pilih Pemilik ---\n";
-            std::cout << "0. Anonim (tanpa identitas)\n";
-            for (int i = 0; i < (int)list_orang.size(); i++) {
-                std::cout << (i + 1) << ". " << list_orang[i]->get_nama()
-                    << " (" << (list_orang[i]->is_pegawai() ? "pegawai" : "umum") << ")\n"; //ternary operator
+    // Pemiliknya hard-coded
+    static Person* pilih_pemilik(std::vector<Person*>& list_orang) {
+        std::cout << "\n--- Pilih Pemilik ---\n";
+        std::cout << "0. Anonim (tanpa identitas)\n";
+        for (int i = 0; i < (int)list_orang.size(); i++) {
+            std::cout << (i + 1) << ". " << list_orang[i]->get_nama()
+                << " (" << (list_orang[i]->is_pegawai() ? "pegawai" : "umum") << ")\n"; //ternary operator
+        }
+        int p = Helper::valid_input_int("Pemilik: ", 0, list_orang.size());
+        return (p == 0) ? nullptr : list_orang[p - 1];
+    }
+
+    static Kendaraan* buat_kendaraan(std::vector<Person*>& list_orang) {
+        std::cout << "\n1. Mobil\n2. Truk\n3. Motor\n";
+        int jenis = Helper::valid_input_int("Jenis kendaraan: ", 1, 3);
+        int plat = Helper::valid_input_int("Nomor polisi (angka): ", 1, 999999);
+        Person* pemilik = pilih_pemilik(list_orang);
+
+        std::cout << "\n--- Waktu Datang ---" << '\n';
+        Waktu datang;
+        datang.input_waktu();
+        std::cout << "\n--- Waktu Pulang ---" << '\n';
+        Waktu pulang;
+        pulang.input_waktu();
+
+        switch (jenis) {
+            case 1: {
+                int pintu = Helper::valid_input_int("Jumlah pintu: ", 2, 6);
+                return new Mobil(plat, pemilik, datang, pulang, pintu);
             }
-            int p = Helper::valid_input_int("Pemilik: ", 0, list_orang.size());
-            return (p == 0) ? nullptr : list_orang[p - 1];
+            case 2: {
+                int roda = Helper::valid_input_int("Jumlah roda: ", 4, 18);
+                return new Truk(plat, pemilik, datang, pulang, roda);
+            }
+            case 3: {
+                int tak = Helper::valid_input_int("Jumlah tak (2/4): ", 2, 4);
+                return new Motor(plat, pemilik, datang, pulang, tak);
+            }
         }
+        return nullptr;
+    }
 
-        static Kendaraan* buat_kendaraan(std::vector<Person*>& list_orang) {
-            std::cout << "\n1. Mobil\n2. Truk\n3. Motor\n";
-            int jenis = Helper::valid_input_int("Jenis kendaraan: ", 1, 3);
-            int plat = Helper::valid_input_int("Nomor polisi (angka): ", 1, 999999);
-            Person* pemilik = pilih_pemilik(list_orang);
+    static void isi_contoh(ArrayParkir& parkir, std::vector<Person*>& list_orang) {
+        // list_orang order: 0 Budi (umum), 1 Ani (umum), 2 Siti (pegawai), 3 Joko (pegawai)
+        parkir.tambah_kendaraan(new Mobil(1234, list_orang[2],  Waktu(8,0,0),  Waktu(17,30,0), 4));
+        parkir.tambah_kendaraan(new Motor(5678, list_orang[3],  Waktu(8,0,0),  Waktu(16,0,0),  2));
+        parkir.tambah_kendaraan(new Truk (9012, list_orang[2],  Waktu(7,0,0),  Waktu(10,10,0), 6));
+        parkir.tambah_kendaraan(new Mobil(3456, list_orang[0],  Waktu(9,0,0),  Waktu(11,0,0),  4));
+        parkir.tambah_kendaraan(new Motor(7890, nullptr,  Waktu(10,0,0), Waktu(10,20,0), 2));
+        parkir.tambah_kendaraan(new Mobil(1111, nullptr,  Waktu(22,0,0), Waktu(2,30,0),  4));
+        std::cout << "6 data contoh ditambahkan.\n";
+    }
 
-            std::cout << "\n--- Waktu Datang ---" << '\n';
-            Waktu datang;
-            datang.input_waktu();
-            std::cout << "\n--- Waktu Pulang ---" << '\n';
-            Waktu pulang;
-            pulang.input_waktu();
+public:
+    static void menu() {
+        // Pemilik hard-code. Dekalari SEBELUM parkir so they outlive it.
+        Person budi = Person("Budi", "Jl. Merdeka");
+        Person ani = Person("Ani", "Jl. Sudirman");
+        Pegawai siti = Pegawai("Siti", "Jl. Soetta", "001", 2, Waktu(8,0,0), Waktu(17,0,0));
+        Pegawai joko = Pegawai("Joko", "Jl. Diponegoro", "002", 3, Waktu(8,0,0), Waktu(17,0,0));
+        std::vector<Person*> list_orang = { &budi, &ani, &siti, &joko };
 
-            switch (jenis) {
+        ArrayParkir parkir;
+        int pilih = -1;
+
+        do {
+            display_menu();
+            pilih = Helper::valid_input_int("Menu: ", 0, 5);
+
+            switch (pilih) {
                 case 1: {
-                    int pintu = Helper::valid_input_int("Jumlah pintu: ", 2, 6);
-                    return new Mobil(plat, pemilik, datang, pulang, pintu);
+                    parkir.tambah_kendaraan(buat_kendaraan(list_orang));
+                    std::cout << "Kendaraan ditambahkan.\n";
+                    break;
                 }
                 case 2: {
-                    int roda = Helper::valid_input_int("Jumlah roda: ", 4, 18);
-                    return new Truk(plat, pemilik, datang, pulang, roda);
+                    Kendaraan* k;
+                        
+                    std::cout << "\n1. Mobil\n2. Truk\n3. Motor\n";
+                    int jenis = Helper::valid_input_int("Jenis kendaraan: ", 1, 3);
+                    int plat = Helper::valid_input_int("Nomor polisi (angka): ", 1, 999999);
+                    Person* pemilik = pilih_pemilik(list_orang);
+
+                    std::cout << "\n--- Waktu Datang ---" << '\n';
+                    Waktu datang;
+                    datang.input_waktu();
+                    std::cout << "\n--- Waktu Pulang ---" << '\n';
+                    Waktu pulang;
+                    pulang.input_waktu();
+
+                    switch (jenis) {
+                        case 1: {
+                            int pintu = Helper::valid_input_int("Jumlah pintu: ", 2, 6);
+                            k = new Mobil(plat, pemilik, datang, pulang, pintu);
+                        }
+                        case 2: {
+                            int roda = Helper::valid_input_int("Jumlah roda: ", 4, 18);
+                            k = new Truk(plat, pemilik, datang, pulang, roda);
+                        }
+                        case 3: {
+                            int tak = Helper::valid_input_int("Jumlah tak (2/4): ", 2, 4);
+                            k = new Motor(plat, pemilik, datang, pulang, tak);
+                        }
+                    }
+
+                    parkir.tambah_kendaraan(k);
+                    std::cout << "Kendaraan ditambahkan.\n";
+                    break;
                 }
                 case 3: {
-                    int tak = Helper::valid_input_int("Jumlah tak (2/4): ", 2, 4);
-                    return new Motor(plat, pemilik, datang, pulang, tak);
+                    if (parkir.get_jumlah() == 0) std::cout << "Belum ada data.\n";
+                    else parkir.print_all_parkir();
+                    break;
+                }
+                case 4: {
+                    if (parkir.get_jumlah() == 0) { std::cout << "Belum ada data.\n"; break; }
+                    parkir.print_all_parkir();
+                    int no = Helper::valid_input_int("Nomor kendaraan: ", 1, parkir.get_jumlah());
+                    Kendaraan* k = parkir.get_kendaraan(no - 1);
+                    k->ganti_pemilik(pilih_pemilik(list_orang));
+                    std::cout << "Pemilik diganti.\n";
+                    break;
+                }
+                case 5: {
+                    isi_contoh(parkir, list_orang);
+                    break;
+                }
+                case 0: {
+                    std::cout << "Terima kasih...\n";
+                    break;
                 }
             }
-            return nullptr;
-        }
-
-        static void isi_contoh(ArrayParkir& parkir, std::vector<Person*>& list_orang) {
-            // list_orang order: 0 Budi (umum), 1 Ani (umum), 2 Siti (pegawai), 3 Joko (pegawai)
-            parkir.tambah_kendaraan(new Mobil(1234, list_orang[2],  Waktu(8,0,0),  Waktu(17,30,0), 4));
-            parkir.tambah_kendaraan(new Motor(5678, list_orang[3],  Waktu(8,0,0),  Waktu(16,0,0),  2));
-            parkir.tambah_kendaraan(new Truk (9012, list_orang[2],  Waktu(7,0,0),  Waktu(10,10,0), 6));
-            parkir.tambah_kendaraan(new Mobil(3456, list_orang[0],  Waktu(9,0,0),  Waktu(11,0,0),  4));
-            parkir.tambah_kendaraan(new Motor(7890, nullptr,  Waktu(10,0,0), Waktu(10,20,0), 2));
-            parkir.tambah_kendaraan(new Mobil(1111, nullptr,  Waktu(22,0,0), Waktu(2,30,0),  4));
-            std::cout << "6 data contoh ditambahkan.\n";
-        }
-
-    public:
-        static void menu() {
-            // Hard-coded owners. Declared BEFORE parkir so they outlive it.
-            Person budi = Person("Budi", "Jl. Merdeka");
-            Person ani = Person("Ani", "Jl. Sudirman");
-            Pegawai siti = Pegawai("Siti", "Jl. Soetta", "001", 2, Waktu(8,0,0), Waktu(17,0,0));
-            Pegawai joko = Pegawai("Joko", "Jl. Diponegoro", "002", 3, Waktu(8,0,0), Waktu(17,0,0));
-            std::vector<Person*> list_orang = { &budi, &ani, &siti, &joko };
-
-            ArrayParkir parkir;
-            int pilih = -1;
-
-            do {
-                display_menu();
-                pilih = Helper::valid_input_int("Menu: ", 0, 4);
-
-                switch (pilih) {
-                    case 1: {
-                        parkir.tambah_kendaraan(buat_kendaraan(list_orang));
-                        std::cout << "Kendaraan ditambahkan.\n";
-                        break;
-                    }
-                    case 2: {
-                        if (parkir.get_jumlah() == 0) std::cout << "Belum ada data.\n";
-                        else parkir.print_all_parkir();
-                        break;
-                    }
-                    case 3: {
-                        if (parkir.get_jumlah() == 0) { std::cout << "Belum ada data.\n"; break; }
-                        parkir.print_all_parkir();
-                        int no = Helper::valid_input_int("Nomor kendaraan: ", 1, parkir.get_jumlah());
-                        Kendaraan* k = parkir.get_kendaraan(no - 1);
-                        k->ganti_pemilik(pilih_pemilik(list_orang));
-                        std::cout << "Pemilik diganti.\n";
-                        break;
-                    }
-                    case 4: {
-                        isi_contoh(parkir, list_orang);
-                        break;
-                    }
-                    case 0: {
-                        std::cout << "Terima kasih...\n";
-                        break;
-                    }
-                }
-            } while (pilih != 0);
-        }
+        } while (pilih != 0);
+    }
 };
 
 int main() {
