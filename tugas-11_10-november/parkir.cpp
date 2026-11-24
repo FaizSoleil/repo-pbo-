@@ -386,6 +386,11 @@ class ArrayPegawai {
 class Kendaraan {
 protected:
     int nomor_polisi;
+    Person* pemilik;    // nullptr = anonim maka tidak dimiliki sama Kendaraan.
+    Waktu datang;   // see note 1 below
+    Waktu pulang;
+
+    bool adalah_pegawai() {
     Person* pemilik;    // nullptr = anonim.
     Waktu datang;
     Waktu pulang;
@@ -428,11 +433,16 @@ public:
         }
 
         std::string get_status() {
+            if (adalah_pegawai()) return "pegawai";
             if (pemilik_is_pegawai()) return "pegawai";
             if (pemilik == nullptr) return "umum (anonim)";
             return "umum";
         }
 
+        // virtual xxx fungsi() = 0 menandakan abstract function()
+        virtual int hitung_biaya() = 0;
+        virtual std::string get_jenis() = 0;
+        virtual std::string get_detail() = 0;
         // virtual return fungsi() = 0 menandakan abstract function()
         virtual int hitung_biaya() = 0;
         virtual std::string get_jenis() = 0;
@@ -469,6 +479,7 @@ public:
     void set_jumlah_pintu(int j) { jumlah_pintu = j; }
 
     int hitung_biaya() override {
+        if (adalah_pegawai()) return 6000;  // per hari
         if (pemilik_is_pegawai()) return 6000;  // per hari
             return biaya_per_jam(3000); // per jam
     }
@@ -500,12 +511,14 @@ private:
 public:
     Motor(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang, int jumlah_tak)
         : Kendaraan(nomor_polisi, pemilik, datang, pulang) {
+        this->jumlah_tak = jumlah_tak;
         this->jumlah_tak = jumlah_tak;      
     }
     int get_jumlah_tak() { return jumlah_tak; }
     void set_jumlah_tak(int j) { jumlah_tak = j; }
 
     int hitung_biaya() override {
+        if (adalah_pegawai()) return 3000;  // per hari
         if (pemilik_is_pegawai()) return 3000;  // per hari
         return biaya_per_jam(2000); // per jam
     }
@@ -579,11 +592,14 @@ private:
             << "=================================\n";
     }
 
+    // Pemiliknya hard-coded
     // Pemilik i.e. Person/Pegawai hard-coded
     static Person* pilih_pemilik(std::vector<Person*>& list_orang) {
         std::cout << "\n--- Pilih Pemilik ---\n";
         std::cout << "0. Anonim (tanpa identitas)\n";
         for (int i = 0; i < (int)list_orang.size(); i++) {
+            std::cout << (i + 1) << ". " << list_orang[i]->get_nama()
+                << " (" << (list_orang[i]->is_pegawai() ? "pegawai" : "umum") << ")\n"; //ternary operator
             std::cout << (i + 1) << ". " << list_orang[i]->get_nama() 
             << " (" << (list_orang[i]->is_pegawai() ? "pegawai" : "umum") << ")\n"; //ternary operator
         }
