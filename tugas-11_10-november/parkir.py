@@ -6,39 +6,40 @@
 #    Tanggal Buat : 21 November 2026
 #    Deskripsi    : Parkir
 
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod   # untuk enforce abstract di py
 
 
 # ---------- Helper ----------
-def valid_input_int(pesan, minimum, maksimum):
-    while True:
-        temp = input(pesan).strip()
-        if temp == "":
-            continue
-        try:
-            angka = int(temp)
-        except ValueError:
-            print("Input harus sebuah integer!!")
-            continue
-        if angka < minimum or angka > maksimum:
-            print(f"Input harus angka {minimum} - {maksimum}!!")
-            continue
-        return angka
+class Helper:
+    @staticmethod
+    def valid_input_int(pesan, minimum, maksimum):
+        while True:
+            temp = input(pesan).strip()
+            if temp == "":
+                continue
+            try:
+                angka = int(temp)
+            except ValueError:
+                print("Input harus sebuah integer!!")
+                continue
+            if angka < minimum or angka > maksimum:
+                print(f"Input harus angka {minimum} - {maksimum}!!")
+                continue
+            return angka
+
+    @staticmethod
+    def format_ribuan(n):
+        return f"{n:,}".replace(",", ".")
+
+    @staticmethod
+    def input_string(pesan=""):
+        while True:
+            hasil = input(pesan)
+            if hasil != "":
+                return hasil
+            print("Input tidak boleh kosong!!")
 
 
-def format_ribuan(n):
-    return f"{n:,}".replace(",", ".")
-
-
-def input_string(pesan=""):
-    while True:
-        hasil = input(pesan)
-        if hasil != "":
-            return hasil
-        print("Input tidak boleh kosong!!")
-
-
-# ---------- Waktu ----------
 class Waktu:
     def __init__(self, jam=0, menit=0, detik=0):
         self.jam = jam
@@ -46,9 +47,9 @@ class Waktu:
         self.detik = detik
 
     def input_waktu(self):
-        self.jam = valid_input_int("Masukkan jam: ", 0, 23)
-        self.menit = valid_input_int("Masukkan menit: ", 0, 59)
-        self.detik = valid_input_int("Masukkan detik: ", 0, 59)
+        self.jam = Helper.valid_input_int("Masukkan jam: ", 0, 23)
+        self.menit = Helper.valid_input_int("Masukkan menit: ", 0, 59)
+        self.detik = Helper.valid_input_int("Masukkan detik: ", 0, 59)
 
     def __str__(self):
         return f"{self.jam:02d}:{self.menit:02d}:{self.detik:02d}"
@@ -72,8 +73,8 @@ class Person:
         self.alamat = alamat
 
     def input(self):
-        self.nama = input_string("Masukkan Nama: ")
-        self.alamat = input_string("Masukkan Alamat: ")
+        self.nama = Helper.input_string("Masukkan Nama: ")
+        self.alamat = Helper.input_string("Masukkan Alamat: ")
 
     def output(self):
         print(self.nama, self.alamat)
@@ -92,8 +93,8 @@ class Pegawai(Person):
 
     def input_pegawai(self):
         self.input()
-        self.nip = input_string("Masukkan NIP: ")
-        self.gol = valid_input_int("Masukkan Golongan (1-4): ", 1, 4)
+        self.nip = Helper.input_string("Masukkan NIP: ")
+        self.gol = Helper.valid_input_int("Masukkan Golongan (1-4): ", 1, 4)
 
         print("\n--- Input Waktu Datang ---")
         self.datang.input_waktu()
@@ -129,9 +130,9 @@ class Pegawai(Person):
         print(
             f"{str(no) + '.':<4}{self.nip:<6}{self.nama:<16}{self.alamat:<20}{self.gol:<8}"
             f"{self.datang}   {self.pulang}   {self.get_lama_kerja()}     {self.get_waktu_lembur()}     "
-            f"{format_ribuan(self.get_gaji_harian()):<14}"
-            f"{format_ribuan(self.get_uang_lembur_total()):<13}"
-            f"{format_ribuan(self.get_total_gaji()):<14}"
+            f"{Helper.format_ribuan(self.get_gaji_harian()):<14}"
+            f"{Helper.format_ribuan(self.get_uang_lembur_total()):<13}"
+            f"{Helper.format_ribuan(self.get_total_gaji()):<14}"
             f"{self.get_status():<10}"
         )
 
@@ -218,7 +219,7 @@ class Kendaraan(ABC):
         print(
             f"{str(no) + '.':<4}{self.get_jenis():<8}{self.nomor_polisi:<9}"
             f"{self.get_nama_pemilik():<16}{self.get_status():<16}{self.get_detail():<12}"
-            f"{self.datang}   {self.pulang}   {lama}   {format_ribuan(self.hitung_biaya()):<12}"
+            f"{self.datang}   {self.pulang}   {lama}   {Helper.format_ribuan(self.hitung_biaya()):<12}"
         )
 
 
@@ -319,14 +320,14 @@ def pilih_pemilik(list_orang):
     for i, orang in enumerate(list_orang):
         status = "pegawai" if isinstance(orang, Pegawai) else "umum"
         print(f"{i + 1}. {orang.nama} ({status})")
-    p = valid_input_int("Pemilik: ", 0, len(list_orang))
+    p = Helper.valid_input_int("Pemilik: ", 0, len(list_orang))
     return None if p == 0 else list_orang[p - 1]
 
 
 def buat_kendaraan(list_orang):
     print("\n1. Mobil\n2. Truk\n3. Motor")
-    jenis = valid_input_int("Jenis kendaraan: ", 1, 3)
-    plat = valid_input_int("Nomor polisi (angka): ", 1, 999999)
+    jenis = Helper.valid_input_int("Jenis kendaraan: ", 1, 3)
+    plat = Helper.valid_input_int("Nomor polisi (angka): ", 1, 999999)
     pemilik = pilih_pemilik(list_orang)
 
     print("\n--- Waktu Datang ---")
@@ -337,12 +338,12 @@ def buat_kendaraan(list_orang):
     pulang.input_waktu()
 
     if jenis == 1:
-        pintu = valid_input_int("Jumlah pintu: ", 2, 6)
+        pintu = Helper.valid_input_int("Jumlah pintu: ", 2, 6)
         return Mobil(plat, pemilik, datang, pulang, pintu)
     if jenis == 2:
-        roda = valid_input_int("Jumlah roda: ", 4, 18)
+        roda = Helper.valid_input_int("Jumlah roda: ", 4, 18)
         return Truk(plat, pemilik, datang, pulang, roda)
-    tak = valid_input_int("Jumlah tak (2/4): ", 2, 4)
+    tak = Helper.valid_input_int("Jumlah tak (2/4): ", 2, 4)
     return Motor(plat, pemilik, datang, pulang, tak)
 
 
@@ -369,7 +370,7 @@ def menu():
 
     while True:
         display_menu()
-        pilih = valid_input_int("Menu: ", 0, 5)
+        pilih = Helper.valid_input_int("Menu: ", 0, 5)
 
         if pilih == 1 or pilih == 2:  # dua menu ini identik di kode asli
             parkir.tambah_kendaraan(buat_kendaraan(list_orang))
@@ -384,7 +385,7 @@ def menu():
                 print("Belum ada data.")
                 continue
             parkir.print_all_parkir()
-            no = valid_input_int("Nomor kendaraan: ", 1, parkir.get_jumlah())
+            no = Helper.valid_input_int("Nomor kendaraan: ", 1, parkir.get_jumlah())
             parkir.get_kendaraan(no - 1).pemilik = pilih_pemilik(list_orang)
             print("Pemilik diganti.")
         elif pilih == 5:
