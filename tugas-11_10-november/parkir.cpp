@@ -391,6 +391,12 @@ protected:
     Waktu pulang;
 
     bool adalah_pegawai() {
+    Person* pemilik;    // nullptr = anonim.
+    Waktu datang;
+    Waktu pulang;
+
+    //cek apakah pemilik adalah pegawai
+    bool pemilik_is_pegawai() { 
         return pemilik != nullptr && pemilik->is_pegawai();
     }
 
@@ -412,6 +418,10 @@ public:
             this->datang = datang;
             this->pulang = pulang;
         }
+
+        //virtual destructor digunakan demi memory cleanup. 
+        //In practice: let Mobil* foo = new Mobil();
+        //delete foo; -> Digunakan biar dia manggil destructor ~Mobil()
         virtual ~Kendaraan() {}
 
         int get_nomor_polisi() { return nomor_polisi; }
@@ -424,6 +434,7 @@ public:
 
         std::string get_status() {
             if (adalah_pegawai()) return "pegawai";
+            if (pemilik_is_pegawai()) return "pegawai";
             if (pemilik == nullptr) return "umum (anonim)";
             return "umum";
         }
@@ -432,6 +443,10 @@ public:
         virtual int hitung_biaya() = 0;
         virtual std::string get_jenis() = 0;
         virtual std::string get_detail() = 0;
+        // virtual return fungsi() = 0 menandakan abstract function()
+        virtual int hitung_biaya() = 0;
+        virtual std::string get_jenis() = 0;
+        virtual std::string get_detail() = 0; //detail tergantung atribut unik tiap class
 
         void print_kendaraan(int no) {
             std::cout << std::left << std::setw(4) << (std::to_string(no) + ".")
@@ -453,6 +468,9 @@ class Mobil : public Kendaraan {
 private:
     int jumlah_pintu;
 public:
+    //Semua yang dalam constructor adalah operasi assignment sedangkan initialize terjadi pada Constructor(parameter) : (member init list) {assignment} 
+    // initialize: int x = 5
+    // declare lalu assign: int x; x = 5;
     Mobil(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang, int jumlah_pintu)
     : Kendaraan(nomor_polisi, pemilik, datang, pulang) {
     this->jumlah_pintu = jumlah_pintu;
@@ -462,6 +480,7 @@ public:
 
     int hitung_biaya() override {
         if (adalah_pegawai()) return 6000;  // per hari
+        if (pemilik_is_pegawai()) return 6000;  // per hari
             return biaya_per_jam(3000); // per jam
     }
     std::string get_jenis() override { return "Mobil"; }
@@ -493,12 +512,14 @@ public:
     Motor(int nomor_polisi, Person* pemilik, Waktu datang, Waktu pulang, int jumlah_tak)
         : Kendaraan(nomor_polisi, pemilik, datang, pulang) {
         this->jumlah_tak = jumlah_tak;
+        this->jumlah_tak = jumlah_tak;      
     }
     int get_jumlah_tak() { return jumlah_tak; }
     void set_jumlah_tak(int j) { jumlah_tak = j; }
 
     int hitung_biaya() override {
         if (adalah_pegawai()) return 3000;  // per hari
+        if (pemilik_is_pegawai()) return 3000;  // per hari
         return biaya_per_jam(2000); // per jam
     }
     std::string get_jenis() override { return "Motor"; }
@@ -556,6 +577,8 @@ public:
 // ArrayParkir b;
 // b = a;
 
+//kenapa disable? Agar tidak ada risiko shallow copy/ double free.
+
 class MenuParkir {
 private:
     static void display_menu() {
@@ -570,12 +593,15 @@ private:
     }
 
     // Pemiliknya hard-coded
+    // Pemilik i.e. Person/Pegawai hard-coded
     static Person* pilih_pemilik(std::vector<Person*>& list_orang) {
         std::cout << "\n--- Pilih Pemilik ---\n";
         std::cout << "0. Anonim (tanpa identitas)\n";
         for (int i = 0; i < (int)list_orang.size(); i++) {
             std::cout << (i + 1) << ". " << list_orang[i]->get_nama()
                 << " (" << (list_orang[i]->is_pegawai() ? "pegawai" : "umum") << ")\n"; //ternary operator
+            std::cout << (i + 1) << ". " << list_orang[i]->get_nama() 
+            << " (" << (list_orang[i]->is_pegawai() ? "pegawai" : "umum") << ")\n"; //ternary operator
         }
         int p = Helper::valid_input_int("Pemilik: ", 0, list_orang.size());
         return (p == 0) ? nullptr : list_orang[p - 1];
